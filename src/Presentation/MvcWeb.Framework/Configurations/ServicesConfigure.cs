@@ -1,18 +1,11 @@
-﻿using Core.Helpers;
-using Core.Infrastructure.Email;
+﻿using Core.Infrastructure.Email;
 using Core.Infrastructure.NotificationService;
 using Data.Contexts;
 using Data.Repositories;
 using Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MvcWeb.Framework.Handlers;
 using Services.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MvcWeb.Framework.Configurations
 {
@@ -30,14 +23,6 @@ namespace MvcWeb.Framework.Configurations
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<INavigateMenuService, NavigateMenuService>();
             services.AddScoped<IPermissionService, PermissionService>();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(PolicyDefaults.AuthorizationPolicy, policyCorrectUser =>
-                {
-                    policyCorrectUser.Requirements.Add(new AuthorizationRequirement());
-                });
-            });
 
             services.AddHttpContextAccessor();
 

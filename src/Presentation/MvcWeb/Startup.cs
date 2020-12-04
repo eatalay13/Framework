@@ -1,3 +1,4 @@
+using Core.Helpers;
 using Core.Infrastructure.Email;
 using Data.Contexts;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcWeb.Framework.Configurations;
+using MvcWeb.Framework.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +36,16 @@ namespace MvcWeb
             });
 
             services.AddServicesOptions();
+
             services.AddIdentityOptions();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyDefaults.AuthorizationPolicy, policyCorrectUser =>
+                {
+                    policyCorrectUser.Requirements.Add(new AuthorizationRequirement());
+                });
+            });
 
             services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
