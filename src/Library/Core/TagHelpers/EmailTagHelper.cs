@@ -2,7 +2,7 @@
 
 namespace Core.TagHelpers
 {
-    [HtmlTargetElement("email", TagStructure = TagStructure.WithoutEndTag)]
+    [HtmlTargetElement("email")]
     public class EmailTagHelper : TagHelper
     {
         public string MailTo { get; set; }

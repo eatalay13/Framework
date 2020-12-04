@@ -26,8 +26,8 @@ namespace MvcWeb.Framework.Configurations
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            //services.AddScoped<INavigateMenuService, NavigateMenuService>();
-            //services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<INavigateMenuService, NavigateMenuService>();
+            services.AddScoped<IPermissionService, PermissionService>();
 
             services.AddHttpContextAccessor();
 

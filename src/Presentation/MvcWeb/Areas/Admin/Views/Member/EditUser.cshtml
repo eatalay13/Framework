@@ -1,0 +1,55 @@
+﻿@model EditUserViewModel
+@{
+    ViewData["Title"] = "Kullanıcı düzenle";
+}
+
+<div class="d-flex flex-column-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-custom gutter-b example example-compact">
+                    <div class="card-header">
+                        <h3 class="card-title">Kullanıcı Düzenle</h3>
+                    </div>
+                    <form class="form" asp-action="EditUser" method="post" role="form">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" class="form-control form-control-solid" placeholder="Email">
+                                <span class="form-text text-danger" asp-validation-for="Email"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserName"></label>
+                                <input asp-for="UserName" class="form-control form-control-solid" placeholder="Email">
+                                <span class="form-text text-danger" asp-validation-for="UserName"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Rolleri</label>
+                                <ul style="list-style-type: none; padding-inline-start: 0;">
+                                    @for (var i = 0; i < Model.Roles.Length; i++)
+                                    {
+                                        <li style="padding: 10px 0px;">
+                                            <label class="checkbox mb-0" asp-for="@Model.Roles[i].Selected">
+                                                <input asp-for="@Model.Roles[i].Selected" type="checkbox" />
+                                                <span></span>
+                                                &nbsp; @Model.Roles[i].Name
+                                            </label>
+                                            @*<input type="checkbox" asp-for="@Model.Roles[i].Selected"/>
+                                                <label style="margin-left: 10px;" asp-for="@Model.Roles[i].Selected">@Model.Roles[i].Name</label>*@
+                                            <input type="hidden" asp-for="@Model.Roles[i].Id" />
+                                            <input type="hidden" asp-for="@Model.Roles[i].Name" />
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary mr-2">Düzenle</button>
+                            <a asp-action="Users" class="btn btn-secondary">Geri</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

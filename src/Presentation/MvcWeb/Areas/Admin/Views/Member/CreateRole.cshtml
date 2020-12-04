@@ -1,0 +1,32 @@
+﻿@model AddRoleViewModel
+
+@{
+    ViewData["Title"] = "Yeni Rol Ekle";
+}
+
+<div class="d-flex flex-column-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-custom gutter-b example example-compact">
+                    <div class="card-header">
+                        <h3 class="card-title">Yeni Rol Ekle</h3>
+                    </div>
+                    <form class="form" asp-action="CreateRole" method="post" role="form">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Name"></label>
+                                <input asp-for="Name" class="form-control form-control-solid" placeholder="Rol Adı">
+                                <span class="form-text text-danger" asp-validation-for="Name"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary mr-2">Ekle</button>
+                            <a asp-action="Roles" class="btn btn-secondary">Geri</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
