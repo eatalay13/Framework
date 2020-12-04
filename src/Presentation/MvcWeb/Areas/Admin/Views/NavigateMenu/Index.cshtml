@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Navigation Menü";
+}
+
+<div class="d-flex flex-column-fluid">
+    <div class="container">
+        <div class="row mt-0 mt-lg-8">
+            <div class="col-xl-12">
+                <div class="card card-custom card-stretch card-shadowless gutter-b">
+                    <div class="card-header border-0 py-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bolder text-dark">Menüler</span>
+                            <span class="text-muted mt-3 font-weight-bold font-size-sm">Kısıtlamalı menüler</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-0">
+
+                        @(Html.DevExtreme().TreeList<Entities.Models.Menu.NavigationMenu>()
+                            .DataSource(ds => ds.Mvc()
+                                .Controller("NavigationMenuApi")
+                                .LoadAction("Get")
+                                .InsertAction("Post")
+                                .UpdateAction("Put")
+                                .DeleteAction("Delete")
+                                .Key("Id")
+                            )
+                            .KeyExpr("Id")
+                            .ParentIdExpr("ParentMenuId")
+                            .Columns(columns => {
+
+                                columns.AddFor(m => m.Name);
+
+                                columns.AddFor(m => m.ParentMenuId).Lookup(lookup => lookup
+                                    .DataSource(ds => ds.WebApi().Controller("NavigationMenuApi").LoadAction("Get").Key("Id"))
+                                    .ValueExpr("Id")
+                                    .DisplayExpr("Name")
+                                );
+
+                                columns.AddFor(m => m.Area);
+
+                                columns.AddFor(m => m.ControllerName);
+
+                                columns.AddFor(m => m.ActionName);
+
+                                columns.AddFor(m => m.DisplayOrder);
+
+                                columns.AddFor(m => m.ExternalUrl);
+
+                                columns.AddFor(m => m.Visible);
+                                columns.AddFor(m => m.IsExternal);
+                            })
+                            .Editing(e => e.Mode(GridEditMode.Popup)
+                                .AllowAdding(true)
+                                .AllowUpdating(true)
+                                .AllowDeleting(true)
+                            )
+                    )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

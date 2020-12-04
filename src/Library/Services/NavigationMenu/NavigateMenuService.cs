@@ -9,6 +9,11 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Entities.Models.Menu;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Data.ResponseModel;
+using DevExtreme.AspNet.Mvc;
+using System.Threading.Tasks;
+using System;
 
 namespace Services.Authentication
 {
@@ -21,6 +26,13 @@ namespace Services.Authentication
             _uow = uow;
         }
 
+        public async Task<LoadResult> BindDevExp(DataSourceLoadOptions loadOptions)
+        {
+            var data = _uow.NavigationMenuRepo.TableNoTracking;
+
+            return await DataSourceLoader.LoadAsync(data, loadOptions);
+        }
+
         public IList<NavigationMenu> GetMenuList()
         {
             return _uow.NavigationMenuRepo.GetAll();
@@ -31,9 +43,9 @@ namespace Services.Authentication
             return _uow.NavigationMenuRepo.GetAllPaged(null, pageIndex, pageSize);
         }
 
-        public NavigationMenu GetMenuById(string id)
+        public NavigationMenu GetMenuById(Guid id)
         {
-            return _uow.NavigationMenuRepo.GetById(id.ToGuid());
+            return _uow.NavigationMenuRepo.GetById(id);
         }
         public void AddNavigationMenu(NavigationMenu menu)
         {

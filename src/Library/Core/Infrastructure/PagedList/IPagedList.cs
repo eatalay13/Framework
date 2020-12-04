@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Infrastructure.PagedList
 {
-    public interface IPagedList<T> : IEnumerable<T>
+    public interface IPagedList<T> : IList<T>
     {
         int PageIndex { get; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models.Menu
@@ -6,6 +7,11 @@ namespace Entities.Models.Menu
     [Table("AspNetNavigationMenu")]
     public class NavigationMenu : BaseModel
     {
+        public NavigationMenu()
+        {
+            InverseParentNavigationMenu = new HashSet<NavigationMenu>();
+        }
+
         public string Name { get; set; }
 
         [ForeignKey("ParentNavigationMenu")]
@@ -27,6 +33,7 @@ namespace Entities.Models.Menu
 
 
         public virtual NavigationMenu ParentNavigationMenu { get; set; }
+        public virtual ICollection<NavigationMenu> InverseParentNavigationMenu { get; set; }
 
 
         [NotMapped]
