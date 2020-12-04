@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models.Auth;
+using Entities.Models.Menu;
 
 namespace Data.Contexts
 {
@@ -22,6 +23,8 @@ namespace Data.Contexts
 
         }
 
-        public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<Test> Test { get; set; }
+        public virtual DbSet<NavigationMenu> NavigationMenu { get; set; }
+        public virtual DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }
     }
 }

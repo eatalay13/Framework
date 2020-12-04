@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Repositories;
 using Entities.Models;
+using Entities.Models.Menu;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.UnitOfWork
@@ -15,12 +16,12 @@ namespace Data.UnitOfWork
         private readonly DbContext _context;
 
         #region Lazy
-        //private readonly Lazy<IRepository<NavigationMenu>> _navigationMenuRepo;
+        private readonly Lazy<IRepository<NavigationMenu>> _navigationMenuRepo;
         #endregion
 
         #region RepoInitiate
 
-        //public IRepository<NavigationMenu> NavigationMenuRepo => _navigationMenuRepo.Value;
+        public IRepository<NavigationMenu> NavigationMenuRepo => _navigationMenuRepo.Value;
 
 
         #endregion
@@ -35,7 +36,7 @@ namespace Data.UnitOfWork
                 throw new ArgumentNullException("Db Context Can Not Be Null");
             }
 
-            //_navigationMenuRepo = CreateRepo<NavigationMenu>();
+            _navigationMenuRepo = CreateRepo<NavigationMenu>();
         }
 
         #endregion
