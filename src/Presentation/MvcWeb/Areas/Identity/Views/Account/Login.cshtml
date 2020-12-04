@@ -1,0 +1,43 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<div class="login-form login-signin py-11">
+    <form asp-action="Login" method="post" class="form" role="form">
+        <div class="text-center pb-8">
+            <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Giriş Yap</h2>
+            <span class="text-muted font-weight-bold font-size-h4">
+                Veya
+                <a asp-action="Register" class="text-primary font-weight-bolder">Yeni Hesap Oluştur.</a>
+            </span>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="font-size-h6 font-weight-bolder text-dark"></label>
+            <input asp-for="Email" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" autocomplete="off" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="d-flex justify-content-between mt-n5">
+                <label asp-for="Password" class="font-size-h6 font-weight-bolder text-dark pt-5"></label>
+                <a asp-action="ResetPassword" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">Şifremi unuttum?</a>
+            </div>
+            <input asp-for="Password" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" autocomplete="off" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="checkbox mb-0">
+                <input asp-for="RememberMe" />
+                <span></span>
+                &nbsp; Beni Hatırla
+            </label>
+        </div>
+
+        <div class="text-center pt-2">
+            <button type="submit" class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3">Giriş Yap</button>
+        </div>
+    </form>
+</div>

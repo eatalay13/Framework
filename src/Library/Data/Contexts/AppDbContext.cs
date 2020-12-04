@@ -23,8 +23,16 @@ namespace Data.Contexts
 
         }
 
-        public virtual DbSet<Test> Test { get; set; }
         public virtual DbSet<NavigationMenu> NavigationMenu { get; set; }
         public virtual DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<RoleMenuPermission>()
+                .HasKey(c => new { c.RoleId, c.NavigationMenuId });
+
+
+            base.OnModelCreating(builder);
+        }
     }
 }
