@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Entities.Models.Auth;
 
 namespace Data.Contexts
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<User, Role, Guid>
     {
         public AppDbContext()
         {
