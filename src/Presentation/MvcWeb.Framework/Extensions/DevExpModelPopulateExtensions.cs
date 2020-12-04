@@ -33,7 +33,12 @@ namespace MvcWeb.Framework.Extensions
                         safeValue = Enum.Parse(valueType, value.ToString());
 
                     else if (valueType == typeof(Guid))
-                        safeValue = new Guid(value.ToString());
+                    {
+                        if (Guid.TryParse(value.ToString(), out var guidValue))
+                            safeValue = guidValue;
+                        else
+                            safeValue = null;
+                    }
 
                     else
                         safeValue = (value == null) ? null : Convert.ChangeType(value, valueType);
