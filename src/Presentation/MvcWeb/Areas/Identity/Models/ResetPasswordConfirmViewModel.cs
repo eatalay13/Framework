@@ -9,7 +9,7 @@ namespace MvcWeb.Areas.Identity.Models
     public class ResetPasswordConfirmViewModel
     {
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         public string Token { get; set; }

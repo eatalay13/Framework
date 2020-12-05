@@ -72,13 +72,13 @@ namespace MvcWeb.Areas.Admin.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> EditUser(string id)
+        public async Task<IActionResult> EditUser(int id)
         {
-            if (string.IsNullOrWhiteSpace(id)) return RedirectToAction(nameof(Users));
+            if (string.IsNullOrWhiteSpace(id.ToString())) return RedirectToAction(nameof(Users));
 
             var viewModel = new EditUserViewModel();
 
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -118,7 +118,7 @@ namespace MvcWeb.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> EditRolePermission(Guid id)
+        public async Task<IActionResult> EditRolePermission(int id)
         {
             if (string.IsNullOrWhiteSpace(id.ToString())) return RedirectToAction(nameof(Roles));
 

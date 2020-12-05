@@ -11,9 +11,9 @@ namespace Data.Repositories
     {
         #region Methods
 
-        TEntity GetById(Guid id);
+        TEntity GetById(int id);
 
-        IList<TEntity> GetByIds(IList<Guid> ids);
+        IList<TEntity> GetByIds(IList<int> ids);
 
         IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null);
 

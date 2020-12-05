@@ -14,9 +14,10 @@ namespace Services.Authentication
         Task<LoadResult> BindDevExp(DataSourceLoadOptions loadOptions);
         IList<NavigationMenu> GetMenuList();
         IPagedList<NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10);
-        NavigationMenu GetMenuById(Guid id);
+        NavigationMenu GetMenuById(int id);
         void AddNavigationMenu(NavigationMenu menu);
         void UpdateNavigationMenu(NavigationMenu menu);
+        void DeleteNavigationMenu(int id);
         IList<NavigationMenu> GetAllAuthorizeController(Assembly assembly);
     }
 }

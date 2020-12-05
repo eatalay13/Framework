@@ -109,7 +109,7 @@ namespace MvcWeb.Areas.Identity.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public IActionResult ResetPasswordConfirm(string userId, string token)
+        public IActionResult ResetPasswordConfirm(int userId, string token)
         {
             return View(new ResetPasswordConfirmViewModel
             {

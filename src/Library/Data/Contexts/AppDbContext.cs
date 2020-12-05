@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using Entities.Models.Auth;
+﻿using Entities.Models.Auth;
 using Entities.Models.Menu;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Contexts
 {
-    public class AppDbContext : IdentityDbContext<User, Role, Guid>
+    public class AppDbContext : IdentityDbContext<User, Role, int>
     {
         public AppDbContext()
         {

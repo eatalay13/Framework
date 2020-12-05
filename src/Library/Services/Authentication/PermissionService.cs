@@ -66,7 +66,7 @@ namespace Services.Authentication
             return result;
         }
 
-        public async Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(Guid id)
+        public async Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(int id)
         {
             var items = await (from m in _context.NavigationMenu
                                join rm in _context.RoleMenuPermission
@@ -93,7 +93,7 @@ namespace Services.Authentication
             return items;
         }
 
-        public async Task<bool> SetPermissionsByRoleIdAsync(Guid id, IEnumerable<Guid> permissionIds)
+        public async Task<bool> SetPermissionsByRoleIdAsync(int id, IEnumerable<int> permissionIds)
         {
             var existing = await _context.RoleMenuPermission.Where(x => x.RoleId == id).ToListAsync();
             _context.RemoveRange(existing);
@@ -112,7 +112,7 @@ namespace Services.Authentication
             return result > 0;
         }
 
-        private async Task<List<Guid>> GetUserRoleIds(ClaimsPrincipal ctx)
+        private async Task<List<int>> GetUserRoleIds(ClaimsPrincipal ctx)
         {
             var userId = GetUserId(ctx);
             var data = await (from role in _context.UserRoles
@@ -122,10 +122,10 @@ namespace Services.Authentication
             return data;
         }
 
-        private static Guid GetUserId(ClaimsPrincipal user)
+        private static int GetUserId(ClaimsPrincipal user)
         {
             var userId = ((ClaimsIdentity)user.Identity)?.FindFirst(ClaimTypes.NameIdentifier)?.Value.ToString();
-            return userId.ToGuid();
+            return userId.ToInt();
         }
     }
 }

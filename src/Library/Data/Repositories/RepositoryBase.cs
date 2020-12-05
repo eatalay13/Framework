@@ -32,12 +32,12 @@ namespace Data.Repositories
 
         #region Methods
 
-        public virtual TEntity GetById(Guid id)
+        public virtual TEntity GetById(int id)
         {
             return id.ToString().IsNullOrEmptyWhiteSpace() ? null : _entities.Find(id);
         }
 
-        public virtual IList<TEntity> GetByIds(IList<Guid> ids)
+        public virtual IList<TEntity> GetByIds(IList<int> ids)
         {
             if (!ids?.Any() ?? true)
                 return new List<TEntity>();

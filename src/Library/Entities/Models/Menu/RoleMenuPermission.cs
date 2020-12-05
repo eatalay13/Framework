@@ -6,9 +6,9 @@ namespace Entities.Models.Menu
     [Table("AspNetRoleMenuPermission")]
     public class RoleMenuPermission
     {
-        public Guid RoleId { get; set; }
+        public int RoleId { get; set; }
 
-        public Guid NavigationMenuId { get; set; }
+        public int NavigationMenuId { get; set; }
 
         public NavigationMenu NavigationMenu { get; set; }
     }

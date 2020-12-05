@@ -48,9 +48,9 @@ namespace Services.Authentication
             }
         }
 
-        public async Task<User> FindUserByIdAsync(string userId)
+        public async Task<User> FindUserByIdAsync(int userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
 
             if (user is null)
                 throw new Exception($"Sistemde {userId} kullanıcısı bulunamadı.");
@@ -86,7 +86,7 @@ namespace Services.Authentication
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
-        public async Task<bool> ResetPassword(string userId, string token, string newPassword)
+        public async Task<bool> ResetPassword(int userId, string token, string newPassword)
         {
             var user = await FindUserByIdAsync(userId);
 

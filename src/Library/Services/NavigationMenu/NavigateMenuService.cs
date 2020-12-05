@@ -43,7 +43,7 @@ namespace Services.Authentication
             return _uow.NavigationMenuRepo.GetAllPaged(null, pageIndex, pageSize);
         }
 
-        public NavigationMenu GetMenuById(Guid id)
+        public NavigationMenu GetMenuById(int id)
         {
             return _uow.NavigationMenuRepo.GetById(id);
         }
@@ -92,6 +92,15 @@ namespace Services.Authentication
             controllerActionList.RemoveAll(e => e is null);
 
             return controllerActionList;
+        }
+
+        public void DeleteNavigationMenu(int id)
+        {
+            var menu = GetMenuById(id);
+
+            _uow.NavigationMenuRepo.Delete(menu);
+
+            _uow.SaveChanges();
         }
     }
 }

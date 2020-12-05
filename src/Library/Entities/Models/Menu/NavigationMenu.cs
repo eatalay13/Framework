@@ -15,7 +15,7 @@ namespace Entities.Models.Menu
         public string Name { get; set; }
 
         [ForeignKey("ParentNavigationMenu")]
-        public Guid? ParentMenuId { get; set; }
+        public int? ParentMenuId { get; set; }
 
         public string Area { get; set; }
 

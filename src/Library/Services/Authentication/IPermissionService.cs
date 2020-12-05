@@ -12,7 +12,7 @@ namespace Services.Authentication
     {
         Task<bool> GetMenuItemsAsync(ClaimsPrincipal ctx, string ctrl, string act, string area = null);
         Task<List<NavigationMenu>> GetMenuItemsAsync(ClaimsPrincipal principal);
-        Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(Guid id);
-        Task<bool> SetPermissionsByRoleIdAsync(Guid id, IEnumerable<Guid> permissionIds);
+        Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(int id);
+        Task<bool> SetPermissionsByRoleIdAsync(int id, IEnumerable<int> permissionIds);
     }
 }
