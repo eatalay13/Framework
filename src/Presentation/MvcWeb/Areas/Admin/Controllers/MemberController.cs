@@ -75,7 +75,7 @@ namespace MvcWeb.Areas.Admin.Controllers
 
         public async Task<IActionResult> EditUser(int id)
         {
-            if (string.IsNullOrWhiteSpace(id.ToString())) return RedirectToAction(nameof(Users));
+            if (id <= 0) return RedirectToAction(nameof(Users));
 
             var viewModel = new EditUserViewModel();
 
@@ -121,7 +121,7 @@ namespace MvcWeb.Areas.Admin.Controllers
 
         public async Task<IActionResult> EditRolePermission(int id)
         {
-            if (string.IsNullOrWhiteSpace(id.ToString())) return RedirectToAction(nameof(Roles));
+            if (id <= 0) return RedirectToAction(nameof(Roles));
 
             var model = new NavigationMenuViewModel
             {

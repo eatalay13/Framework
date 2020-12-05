@@ -1,11 +1,13 @@
-﻿using Entities.Models.Auth;
+﻿using Entities.Models;
+using Entities.Models.Auth;
 using Entities.Models.Menu;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Data.Contexts
 {
-    public class AppDbContext : IdentityDbContext<User, Role, int>
+    public class AppDbContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
         public AppDbContext()
         {
@@ -18,15 +20,14 @@ namespace Data.Contexts
         }
 
         public virtual DbSet<NavigationMenu> NavigationMenu { get; set; }
-        public virtual DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }
+        public virtual DbSet<RoleMenu> RoleMenu { get; set; }
+        public virtual DbSet<Log> Log { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<RoleMenuPermission>()
-                .HasKey(c => new { c.RoleId, c.NavigationMenuId });
-
-
             base.OnModelCreating(builder);
+
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Services.Authentication
                 return new List<NavigationMenu>();
 
             var roleIds = await GetUserRoleIds(principal);
-            var data = await (from menu in _context.RoleMenuPermission
+            var data = await (from menu in _context.RoleMenu
                               where roleIds.Contains(menu.RoleId) && !menu.NavigationMenu.Visible
                               select menu)
                               .Select(m => new NavigationMenu()
@@ -51,7 +51,7 @@ namespace Services.Authentication
         {
             var result = false;
             var roleIds = await GetUserRoleIds(ctx);
-            var data = await (from menu in _context.RoleMenuPermission
+            var data = await (from menu in _context.RoleMenu
                               where roleIds.Contains(menu.RoleId)
                               select menu)
                               .Select(m => m.NavigationMenu).Distinct().ToListAsync();
@@ -69,7 +69,7 @@ namespace Services.Authentication
         public async Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(int id)
         {
             var items = await (from m in _context.NavigationMenu
-                               join rm in _context.RoleMenuPermission
+                               join rm in _context.RoleMenu
                                 on new { X1 = m.Id, X2 = id } equals new { X1 = rm.NavigationMenuId, X2 = rm.RoleId }
                                 into rmp
                                from rm in rmp.DefaultIfEmpty()
@@ -95,12 +95,12 @@ namespace Services.Authentication
 
         public async Task<bool> SetPermissionsByRoleIdAsync(int id, IEnumerable<int> permissionIds)
         {
-            var existing = await _context.RoleMenuPermission.Where(x => x.RoleId == id).ToListAsync();
+            var existing = await _context.RoleMenu.Where(x => x.RoleId == id).ToListAsync();
             _context.RemoveRange(existing);
 
             foreach (var item in permissionIds)
             {
-                await _context.RoleMenuPermission.AddAsync(new RoleMenuPermission()
+                await _context.RoleMenu.AddAsync(new RoleMenu()
                 {
                     RoleId = id,
                     NavigationMenuId = item,
