@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Core.Infrastructure.NotificationService
@@ -18,16 +19,18 @@ namespace Core.Infrastructure.NotificationService
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
+        private readonly ILogger<NotificationService> _logger;
 
         #endregion
 
         #region Ctor
 
         public NotificationService(IHttpContextAccessor httpContextAccessor,
-            ITempDataDictionaryFactory tempDataDictionaryFactory)
+            ITempDataDictionaryFactory tempDataDictionaryFactory, ILogger<NotificationService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
+            _logger = logger;
         }
 
         #endregion
@@ -46,6 +49,8 @@ namespace Core.Infrastructure.NotificationService
             });
 
             TempData[_notificationListKey] = JsonConvert.SerializeObject(notifies);
+
+            _logger.LogWarning(string.Concat(_httpContextAccessor.HttpContext.User.Identity.Name, ": ", message));
         }
 
         #endregion

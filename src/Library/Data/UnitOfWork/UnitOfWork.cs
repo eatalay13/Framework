@@ -31,11 +31,6 @@ namespace Data.UnitOfWork
         {
             _context = context;
 
-            if (context == null)
-            {
-                throw new ArgumentNullException("Db Context Can Not Be Null");
-            }
-
             _navigationMenuRepo = CreateRepo<NavigationMenu>();
         }
 

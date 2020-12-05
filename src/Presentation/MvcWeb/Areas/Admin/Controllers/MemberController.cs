@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MvcWeb.Areas.Admin.Models.Member;
 using Services.Authentication;
 using System.Linq;
@@ -13,17 +14,19 @@ using System.Threading.Tasks;
 namespace MvcWeb.Areas.Admin.Controllers
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy:PolicyDefaults.AuthorizationPolicy)]
+    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     public class MemberController : Controller
     {
         private readonly IPermissionService _permissionService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly INotificationService _notificationService;
+        private readonly ILogger<MemberController> _logger;
 
         public MemberController(IPermissionService permissionService,
-            UserManager<User> userManager, RoleManager<Role> roleManager, INotificationService notificationService)
+            UserManager<User> userManager, RoleManager<Role> roleManager, INotificationService notificationService, ILogger<MemberController> logger)
         {
+            _logger = logger;
             _permissionService = permissionService;
             _userManager = userManager;
             _roleManager = roleManager;
