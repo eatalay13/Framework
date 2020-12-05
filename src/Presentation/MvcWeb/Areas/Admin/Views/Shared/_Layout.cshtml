@@ -71,14 +71,17 @@
             @await Component.InvokeAsync("LeftPanel")
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                 @await Component.InvokeAsync("Header")
-                <div class="content d-flex flex-column flex-column-fluid animate__animated animate__pulse" id="kt_content">
+                <div class="content d-flex flex-column flex-column-fluid animate__animated animate__fadeIn" id="kt_content">
                     <partial name="_Notifications" />
-                    @RenderBody()
+                    <div class="d-flex flex-column-fluid">
+                        <div class="container-fluid">
+                            @RenderBody()
+                        </div>
+                    </div>
                 </div>
                 @await Component.InvokeAsync("Footer")
             </div>
-
-            @await Component.InvokeAsync("RightPanel")
+            @*@await Component.InvokeAsync("RightPanel")*@
         </div>
     </div>
     @await Component.InvokeAsync("Notifications")

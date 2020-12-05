@@ -24,7 +24,10 @@ namespace MvcWeb.Framework.Extensions
                                 .ApplyFilter(GridApplyFilterMode.Auto))
                             .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
                             .RowAlternationEnabled(true)
-                            .RemoteOperations(true);
+                            .RemoteOperations(true)
+                            .Export(export => export.Enabled(true).AllowExportSelectedData(true))
+                            .ColumnChooser(c => c.Enabled(true).Mode(GridColumnChooserMode.DragAndDrop))
+                            .Selection(select => select.Mode(SelectionMode.Multiple));
 
             return dataGridBuilder;
         }
