@@ -1,21 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Helpers;
+﻿using Core.Helpers;
 using Core.Infrastructure.NotificationService;
+using Entities.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MvcWeb.Areas.Admin.Models.Member;
 using Services.Authentication;
-using Entities.Models.Auth;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize]
+    [Authorize(policy:PolicyDefaults.AuthorizationPolicy)]
     public class MemberController : Controller
     {
         private readonly IPermissionService _permissionService;

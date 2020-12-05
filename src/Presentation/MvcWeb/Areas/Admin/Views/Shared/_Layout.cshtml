@@ -43,12 +43,25 @@
     <script src="~/js/scripts.bundle9cd7.js?v=7.1.5"></script>
     <script src="~/js/pages/widgets9cd7.js?v=7.1.5"></script>
 
+    <script src="~/js/devextreme/cldr.js"></script>
+    <script src="~/js/devextreme/cldr/event.js"></script>
+    <script src="~/js/devextreme/cldr/supplemental.js"></script>
+    <script src="~/js/devextreme/cldr/unresolved.js"></script>
+
+    <script src="~/js/devextreme/globalize.js"></script>
+    <script src="~/js/devextreme/globalize/message.js"></script>
+    <script src="~/js/devextreme/globalize/number.js"></script>
+    <script src="~/js/devextreme/globalize/currency.js"></script>
+    <script src="~/js/devextreme/globalize/date.js"></script>
+
     <script src="~/js/devextreme/jszip.js"></script>
 
     <script src="~/js/devextreme/dx.all.js"></script>
 
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+    <script src="@Url.Action( "CldrData", "Home", new { t = CldrDataScriptBuilder.GetCacheParam() })"></script>
+    <script src="~/js/devextreme/localization/dx.messages.tr.js"></script>
 
 </head>
 <body id="kt_body" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
@@ -85,5 +98,21 @@
 
     <partial name="_ValidationScriptsPartial" />
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        setLocale();
+        var locale = getLocale();
+        Globalize.locale(locale);
+        function changeLocale(data) {
+            setLocale(data.value);
+            document.location.reload();
+        }
+        function getLocale() {
+            const locale = sessionStorage.getItem("locale");
+            return locale != null ? locale : "en";
+        }
+        function setLocale() {
+            sessionStorage.setItem("locale", "tr");
+        }
+    </script>
 </body>
 </html>

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Reflection;
-using Core.Helpers;
-using Core.Infrastructure.NotificationService;
-using Entities.Models.Menu;
+﻿using Core.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MvcWeb.Areas.Admin.Models.NavigatMenu;
 using Services.Authentication;
+using System.Reflection;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize]
+    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     public class NavigateMenuController : Controller
     {
         private readonly INavigateMenuService _navigateMenuService;
