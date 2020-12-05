@@ -28,7 +28,7 @@ namespace MvcWeb.Areas.Admin.Controllers
 
         public IActionResult SyncMenu()
         {
-
+            _navigateMenuService.MenuSync(Assembly.GetExecutingAssembly());
 
             return RedirectToAction(nameof(Index));
         }

@@ -18,6 +18,7 @@ namespace Services.Authentication
         void AddNavigationMenu(NavigationMenu menu);
         void UpdateNavigationMenu(NavigationMenu menu);
         void DeleteNavigationMenu(int id);
-        IList<NavigationMenu> GetAllAuthorizeController(Assembly assembly);
+        void MenuSync(Assembly assembly);
+        List<NavigationMenu> GetAllAuthorizeController(Assembly assembly);
     }
 }

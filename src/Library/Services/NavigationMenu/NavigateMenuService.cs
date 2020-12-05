@@ -14,6 +14,7 @@ using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using System.Threading.Tasks;
 using System;
+using Entities.EqualityComparer;
 
 namespace Services.Authentication
 {
@@ -66,15 +67,36 @@ namespace Services.Authentication
             _uow.SaveChanges();
         }
 
-        public IList<NavigationMenu> GetAllAuthorizeController(Assembly assembly)
+        public void MenuSync(Assembly assembly)
+        {
+            var allAuthController = GetAllAuthorizeController(assembly);
+
+            var registerControllers = _uow.NavigationMenuRepo.GetAll();
+
+            foreach (var menu in registerControllers)
+            {
+                var oldMenu = allAuthController.FirstOrDefault(e => e.Area == menu.Area
+                && e.ControllerName == menu.ControllerName
+                && e.ActionName == menu.ActionName);
+
+                if (oldMenu is not null)
+                    allAuthController.Remove(oldMenu);
+            }
+
+            _uow.NavigationMenuRepo.Insert(allAuthController);
+
+            _uow.SaveChanges();
+        }
+
+        public List<NavigationMenu> GetAllAuthorizeController(Assembly assembly)
         {
             var controllerActionList = assembly.GetTypes()
                 .Where(type => typeof(Controller).IsAssignableFrom(type) && type.CustomAttributes.Any(c => c.AttributeType == typeof(AuthorizeAttribute)))
                 .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
                 .Select(x =>
                 {
-                    if (x.GetCustomAttributes().Any(c => c is HttpPostAttribute))
-                        return null;
+                    //if (x.GetCustomAttributes().Any(c => c is HttpPostAttribute))
+                    //    return null;
 
                     if (x.DeclaringType is null)
                         return null;
@@ -88,6 +110,8 @@ namespace Services.Authentication
                             ?.ToString()
                     };
                 }).ToList();
+
+            controllerActionList = controllerActionList.Distinct(new MenuComparer()).ToList();
 
             controllerActionList.RemoveAll(e => e is null);
 

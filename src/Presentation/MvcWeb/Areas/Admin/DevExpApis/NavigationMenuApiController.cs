@@ -1,6 +1,8 @@
-﻿using Data.Contexts;
+﻿using Core.Helpers;
+using Data.Contexts;
 using DevExtreme.AspNet.Mvc;
 using Entities.Models.Menu;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MvcWeb.Framework.Extensions;
 using Services.Authentication;
@@ -8,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace MvcWeb.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    //[Route("api/[controller]/[action]")]
+    [Area(AreaDefaults.AdminAreaName)]
+    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     public class NavigationMenuApiController : Controller
     {
         private readonly INavigateMenuService _navigateMenuService;
