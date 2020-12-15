@@ -1,24 +1,23 @@
-﻿using Core.Infrastructure.PagedList;
-using DevExtreme.AspNet.Data.ResponseModel;
-using DevExtreme.AspNet.Mvc;
-using Entities.Models.Menu;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Core.Infrastructure.PagedList;
+using DevExtreme.AspNet.Data.ResponseModel;
+using DevExtreme.AspNet.Mvc;
+using Entities.Dtos;
 
-namespace Services.Authentication
+namespace Services.NavigationMenu
 {
     public interface INavigateMenuService
     {
         Task<LoadResult> BindDevExp(DataSourceLoadOptions loadOptions);
-        IList<NavigationMenu> GetMenuList();
-        IPagedList<NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10);
-        NavigationMenu GetMenuById(int id);
-        void AddNavigationMenu(NavigationMenu menu);
-        void UpdateNavigationMenu(NavigationMenu menu);
+        IList<Entities.Models.Menu.NavigationMenu> GetMenuList();
+        IPagedList<Entities.Models.Menu.NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10);
+        Entities.Models.Menu.NavigationMenu GetMenuById(int id);
+        void AddNavigationMenu(Entities.Models.Menu.NavigationMenu menu);
+        void UpdateNavigationMenu(Entities.Models.Menu.NavigationMenu menu);
         void DeleteNavigationMenu(int id);
         void MenuSync(Assembly assembly);
-        List<NavigationMenu> GetAllAuthorizeController(Assembly assembly);
+        List<AuthNavigationMenuDto> GetAllAuthorizeController(Assembly assembly);
     }
 }

@@ -7,26 +7,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Transactions;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Data.Repositories
 {
     public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : BaseModel, new()
     {
-        private readonly DbContext _context;
-
-        #region Ctor
-
-        public RepositoryBase(DbContext context)
-        {
-            _context = context;
-            _entities = context.Set<TEntity>();
-        }
-
-        #endregion
-
         #region Fields
 
         private readonly DbSet<TEntity> _entities;
+        private readonly DbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        #endregion
+
+        #region Properties
+
+        private int UserId
+        {
+            get
+            {
+                if (_httpContextAccessor.HttpContext.User is null) return 0;
+
+                var userId = _httpContextAccessor.HttpContext.User.Claims
+                    .FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                return userId?.ToInt() ?? 0;
+
+            }
+        }
+        #endregion
+
+        #region Ctor
+
+        public RepositoryBase(DbContext context, IHttpContextAccessor httpContextAccessor)
+        {
+            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _entities = context.Set<TEntity>();
+        }
 
         #endregion
 
@@ -34,7 +54,7 @@ namespace Data.Repositories
 
         public virtual TEntity GetById(int id)
         {
-            return id.ToString().IsNullOrEmptyWhiteSpace() ? null : _entities.Find(id);
+            return id <= 0 ? null : _entities.Find(id);
         }
 
         public virtual IList<TEntity> GetByIds(IList<int> ids)
@@ -78,6 +98,9 @@ namespace Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
+            entity.CreatedBy = UserId;
+            entity.ModifiedBy = UserId;
+
             _entities.Add(entity);
         }
 
@@ -85,6 +108,12 @@ namespace Data.Repositories
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
+
+            foreach (var entity in entities)
+            {
+                entity.CreatedBy = UserId;
+                entity.ModifiedBy = UserId;
+            }
 
             using var transaction = new TransactionScope();
             _entities.AddRange(entities);
@@ -95,6 +124,9 @@ namespace Data.Repositories
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
+
+            entity.ModifiedBy = UserId;
+            entity.ModifiedDate = DateTime.Now;
 
             _entities.Update(entity);
         }

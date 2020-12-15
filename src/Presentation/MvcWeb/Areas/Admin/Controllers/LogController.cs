@@ -1,10 +1,7 @@
-﻿using Core.Helpers;
+﻿using Core.CustomAttributes;
+using Core.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
@@ -12,6 +9,8 @@ namespace MvcWeb.Areas.Admin.Controllers
     [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     public class LogController : Controller
     {
+        [ParentMenu(MenuNamesDefaults.AuthorizationTopMenu)]
+        [MenuItem(MenuNamesDefaults.LogIndex)]
         public IActionResult Index()
         {
             return View();

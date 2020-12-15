@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Entities.Models.Menu;
 using FluentValidation;
 
 namespace Services.ValidationRules
 {
-    public class NavigateMenuValidator : AbstractValidator<NavigationMenu>
+    public class NavigateMenuValidator : AbstractValidator<Entities.Models.Menu.NavigationMenu>
     {
         public NavigateMenuValidator()
         {

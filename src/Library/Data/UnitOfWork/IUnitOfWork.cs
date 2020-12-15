@@ -11,6 +11,7 @@ namespace Data.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<NavigationMenu> NavigationMenuRepo { get; }
+        IRepository<RoleMenu> RoleMenuRepo { get; }
         void SaveChanges();
     }
 }

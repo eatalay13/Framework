@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Repositories;
-using Entities.Models;
+﻿using Data.Repositories;
 using Entities.Models.Menu;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Data.UnitOfWork
 {
@@ -16,22 +11,23 @@ namespace Data.UnitOfWork
         private readonly DbContext _context;
 
         #region Lazy
-        private readonly Lazy<IRepository<NavigationMenu>> _navigationMenuRepo;
-        #endregion
 
-        #region RepoInitiate
+        public IRepository<NavigationMenu> NavigationMenuRepo { get; }
 
-        public IRepository<NavigationMenu> NavigationMenuRepo => _navigationMenuRepo.Value;
-
+        public IRepository<RoleMenu> RoleMenuRepo { get; }
 
         #endregion
+
 
         #region Ctor
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(DbContext context,
+            IRepository<NavigationMenu> navigationMenuRepo,
+            IRepository<RoleMenu> roleMenuRepo)
         {
             _context = context;
 
-            _navigationMenuRepo = CreateRepo<NavigationMenu>();
+            NavigationMenuRepo = navigationMenuRepo;
+            RoleMenuRepo = roleMenuRepo;
         }
 
         #endregion
@@ -51,11 +47,6 @@ namespace Data.UnitOfWork
                 transaction.Rollback();
                 throw;
             }
-        }
-
-        private Lazy<IRepository<TModel>> CreateRepo<TModel>() where TModel : BaseModel, new()
-        {
-            return new Lazy<IRepository<TModel>>(() => new RepositoryBase<TModel>(_context));
         }
 
         public void Dispose()

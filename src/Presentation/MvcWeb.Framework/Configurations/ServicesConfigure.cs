@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
+using Services.NavigationMenu;
 
 namespace MvcWeb.Framework.Configurations
 {

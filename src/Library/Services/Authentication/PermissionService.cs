@@ -20,17 +20,17 @@ namespace Services.Authentication
             _context = context;
         }
 
-        public async Task<List<NavigationMenu>> GetMenuItemsAsync(ClaimsPrincipal principal)
+        public async Task<List<Entities.Models.Menu.NavigationMenu>> GetMenuItemsAsync(ClaimsPrincipal principal)
         {
             var isAuthenticated = principal.Identity != null && principal.Identity.IsAuthenticated;
             if (!isAuthenticated)
-                return new List<NavigationMenu>();
+                return new List<Entities.Models.Menu.NavigationMenu>();
 
             var roleIds = await GetUserRoleIds(principal);
             var data = await (from menu in _context.RoleMenu
-                              where roleIds.Contains(menu.RoleId) && !menu.NavigationMenu.Visible
+                              where roleIds.Contains(menu.RoleId) && menu.NavigationMenu.Visible
                               select menu)
-                              .Select(m => new NavigationMenu()
+                              .Select(m => new Entities.Models.Menu.NavigationMenu()
                               {
                                   Id = m.NavigationMenu.Id,
                                   Name = m.NavigationMenu.Name,
@@ -44,7 +44,7 @@ namespace Services.Authentication
                                   Visible = m.NavigationMenu.Visible,
                               }).Distinct().ToListAsync();
 
-            return data;
+            return data.OrderBy(o=> o.DisplayOrder).ToList();
         }
 
         public async Task<bool> GetMenuItemsAsync(ClaimsPrincipal ctx, string ctrl, string act, string area = null)
@@ -66,14 +66,14 @@ namespace Services.Authentication
             return result;
         }
 
-        public async Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(int id)
+        public async Task<List<Entities.Models.Menu.NavigationMenu>> GetPermissionsByRoleIdAsync(int id)
         {
             var items = await (from m in _context.NavigationMenu
                                join rm in _context.RoleMenu
                                 on new { X1 = m.Id, X2 = id } equals new { X1 = rm.NavigationMenuId, X2 = rm.RoleId }
                                 into rmp
                                from rm in rmp.DefaultIfEmpty()
-                               select new NavigationMenu()
+                               select new Entities.Models.Menu.NavigationMenu()
                                {
                                    Id = m.Id,
                                    Name = m.Name,

@@ -19,20 +19,20 @@
                      .DeleteAction("Delete")
                      .Key("Id")
                      )
-                     .AdvantagGridOptions()
+                     .AdvancedGridOptions()
                      .RemoteOperations(true)
                      .Columns(columns => {
                          columns.AddFor(m => m.Id);
 
-                         columns.AddFor(m => m.Message);
+                         columns.AddFor(m => m.Message).Width(400);
 
                          columns.AddFor(m => m.Level);
 
                          columns.AddFor(m => m.Timestamp);
 
-                         columns.AddFor(m => m.Exception).Width(250);
+                         columns.AddFor(m => m.Exception).Width(350);
 
-                         columns.AddFor(m => m.LogEvent).Width(250);
+                         columns.AddFor(m => m.LogEvent).Width(350);
 
                      })
                      .Editing(e => e

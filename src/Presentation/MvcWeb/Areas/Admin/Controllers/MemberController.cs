@@ -10,11 +10,13 @@ using MvcWeb.Areas.Admin.Models.Member;
 using Services.Authentication;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.CustomAttributes;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
     [Area(AreaDefaults.AdminAreaName)]
     [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [ParentMenu(MenuNamesDefaults.AuthorizationTopMenu)]
     public class MemberController : Controller
     {
         private readonly IPermissionService _permissionService;
@@ -32,6 +34,9 @@ namespace MvcWeb.Areas.Admin.Controllers
             _roleManager = roleManager;
             _notificationService = notificationService;
         }
+
+        [ParentMenu(MenuNamesDefaults.Role)]
+        [MenuItem(MenuNamesDefaults.Roles,order:1)]
         public async Task<IActionResult> Roles()
         {
             var roleViewModel = new RoleListViewModel
@@ -42,6 +47,8 @@ namespace MvcWeb.Areas.Admin.Controllers
             return View(roleViewModel);
         }
 
+        [ParentMenu(MenuNamesDefaults.Role)]
+        [MenuItem(MenuNamesDefaults.CreateRole, order: 2)]
         public IActionResult CreateRole()
         {
             return View(new AddRoleViewModel());
@@ -63,6 +70,8 @@ namespace MvcWeb.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [ParentMenu(MenuNamesDefaults.User)]
+        [MenuItem(MenuNamesDefaults.Users, order: 3)]
         public async Task<IActionResult> Users()
         {
             var model = new UserListViewModel
@@ -73,6 +82,8 @@ namespace MvcWeb.Areas.Admin.Controllers
             return View(model);
         }
 
+        [ParentMenu(MenuNamesDefaults.User)]
+        [MenuItem(MenuNamesDefaults.UpdateUser, order: 4,isVisible:false)]
         public async Task<IActionResult> EditUser(int id)
         {
             if (id <= 0) return RedirectToAction(nameof(Users));

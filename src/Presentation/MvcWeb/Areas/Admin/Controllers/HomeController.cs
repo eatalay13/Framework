@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DevExtreme.AspNet.Mvc;
+﻿using Core.CustomAttributes;
 using Core.Helpers;
+using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
@@ -13,11 +10,13 @@ namespace MvcWeb.Areas.Admin.Controllers
     [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     public class HomeController : Controller
     {
+        [MenuItem(name: MenuNamesDefaults.AdminHomeIndex)]
         public IActionResult Index()
         {
             return View();
         }
 
+        [MenuItem(name: MenuNamesDefaults.DevExpLanguage, isVisible: false)]
         public ActionResult CldrData()
         {
             return new CldrDataScriptBuilder()
