@@ -1,17 +1,19 @@
-﻿using Core.Helpers;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Core.CustomAttributes;
+using Core.Helpers;
 using Data.Contexts;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MvcWeb.Controllers
+namespace MvcWeb.Areas.Admin.DevExpApis
 {
     [Area(AreaDefaults.AdminAreaName)]
     [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [ParentMenu(MenuNamesDefaults.ApiMenus,isVisible:false)]
     public class LogsApiController : Controller
     {
         private AppDbContext _context;

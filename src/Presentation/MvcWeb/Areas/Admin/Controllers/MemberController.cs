@@ -130,6 +130,8 @@ namespace MvcWeb.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [ParentMenu(MenuNamesDefaults.Role)]
+        [MenuItem(MenuNamesDefaults.EditRole, order: 3, isVisible: false)]
         public async Task<IActionResult> EditRolePermission(int id)
         {
             if (id <= 0) return RedirectToAction(nameof(Roles));

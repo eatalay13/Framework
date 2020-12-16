@@ -12,6 +12,9 @@ namespace Core.Helpers
         public const string AdminHomeIndex = "Admin Anasayfa";
         public const string DevExpLanguage = "DevExpress Dil Metodu";
 
+        public const string NavigateMenus = "Menüler";
+        public const string NavigateMenusSync = "Menüleri Senkronize Et";
+
         public const string LogIndex = "Sistem Logları";
         public const string Roles = "Roller";
         public const string CreateRole = "Rol Ekle";
@@ -20,5 +23,7 @@ namespace Core.Helpers
         public const string Users = "Kullanıcılar";
         public const string CreateUser = "Kullanıcı Ekle";
         public const string UpdateUser = "Kullanıcı Güncelle";
+        public const string EditRole = "Rol Güncelle";
+        public const string ApiMenus = "Api Istek Menuleri";
     }
 }

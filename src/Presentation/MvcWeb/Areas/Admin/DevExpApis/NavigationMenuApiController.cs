@@ -1,19 +1,18 @@
-﻿using Core.Helpers;
-using Data.Contexts;
+﻿using System.Threading.Tasks;
+using Core.CustomAttributes;
+using Core.Helpers;
 using DevExtreme.AspNet.Mvc;
 using Entities.Models.Menu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MvcWeb.Framework.Extensions;
-using Services.Authentication;
-using System.Threading.Tasks;
 using Services.NavigationMenu;
 
-namespace MvcWeb.Controllers
+namespace MvcWeb.Areas.Admin.DevExpApis
 {
-    //[Route("api/[controller]/[action]")]
     [Area(AreaDefaults.AdminAreaName)]
     [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class NavigationMenuApiController : Controller
     {
         private readonly INavigateMenuService _navigateMenuService;

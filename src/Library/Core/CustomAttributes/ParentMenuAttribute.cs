@@ -11,11 +11,13 @@ namespace Core.CustomAttributes
     {
         public string ParentMenuName { get; }
         public int Order { get; }
+        public bool IsVisible { get; }
 
-        public ParentMenuAttribute(string parentMenuName,int order = 1)
+        public ParentMenuAttribute(string parentMenuName,int order = 1,bool isVisible = true)
         {
             ParentMenuName = parentMenuName;
             Order = order;
+            IsVisible = isVisible;
         }
     }
 }

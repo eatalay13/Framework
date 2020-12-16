@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Entities.EqualityComparer;
 
 namespace Services.NavigationMenu
 {
@@ -138,7 +137,7 @@ namespace Services.NavigationMenu
             foreach (var methodInfo in controllerActionList)
             {
                 if (methodInfo.DeclaringType is null)
-                    return null;
+                    continue;
 
                 var ctrlParentMenuAttr = methodInfo.DeclaringType.GetCustomAttributes(typeof(ParentMenuAttribute), true).Cast<ParentMenuAttribute>()
                     .FirstOrDefault();
@@ -151,7 +150,7 @@ namespace Services.NavigationMenu
                     {
                         Name = ctrlParentMenuAttr.ParentMenuName,
                         DisplayOrder = ctrlParentMenuAttr.Order,
-                        Visible = true,
+                        Visible = ctrlParentMenuAttr.IsVisible,
                         IsTopMenu = true
                     });
 
@@ -161,7 +160,7 @@ namespace Services.NavigationMenu
                         Name = actionParentMenuAttr.ParentMenuName,
                         ParentMenuName = ctrlParentMenuAttr?.ParentMenuName,
                         DisplayOrder = actionParentMenuAttr.Order,
-                        Visible = true,
+                        Visible = actionParentMenuAttr.IsVisible,
                         IsTopMenu = true
                     });
 
@@ -177,9 +176,9 @@ namespace Services.NavigationMenu
 
                 navigateList.Add(new AuthNavigationMenuDto
                 {
-                    ParentMenuName = actionParentMenuAttr?.ParentMenuName,
+                    ParentMenuName = actionParentMenuAttr?.ParentMenuName ?? ctrlParentMenuAttr?.ParentMenuName,
                     Name = menuItemAttr?.Name ?? string.Join(' ', methodInfo.DeclaringType.Name.Replace("Controller", ""), methodInfo.Name),
-                    Visible = menuItemAttr?.IsVisible ?? false,
+                    Visible = SetMenuVisible(menuItemAttr, actionParentMenuAttr, ctrlParentMenuAttr),
                     DisplayOrder = menuItemAttr?.Order ?? 1,
                     ControllerName = methodInfo.DeclaringType.Name.Replace("Controller", ""),
                     ActionName = methodInfo.Name,
@@ -190,6 +189,23 @@ namespace Services.NavigationMenu
             navigateList.RemoveAll(e => e is null);
 
             return navigateList;
+        }
+
+        private bool SetMenuVisible(MenuItemAttribute menuItemAttr, ParentMenuAttribute actionParentMenuAttr,
+            ParentMenuAttribute ctrlParentMenuAttr)
+        {
+            if (actionParentMenuAttr != null || ctrlParentMenuAttr != null || menuItemAttr == null)
+                switch (menuItemAttr)
+                {
+                    case null when actionParentMenuAttr != null && ctrlParentMenuAttr != null:
+                        return actionParentMenuAttr.IsVisible;
+                    case null when actionParentMenuAttr == null && ctrlParentMenuAttr != null:
+                        return ctrlParentMenuAttr.IsVisible;
+                }
+            else
+                return menuItemAttr.IsVisible;
+
+            return false;
         }
 
         public void DeleteNavigationMenu(int id)
