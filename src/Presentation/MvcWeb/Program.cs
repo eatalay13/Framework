@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Services.Lisence;
 using System;
 using System.IO;
 
@@ -26,9 +27,7 @@ namespace MvcWeb
                    autoCreateSqlTable: true,
                    columnOptionsSection: configuration.GetSection("Serilog:ColumnOptions"),
                    schemaName: configuration.GetSection("Serilog:SchemaName").Value,
-                   restrictedToMinimumLevel: LogEventLevel.Warning
-                   )
-               .CreateLogger();
+                   restrictedToMinimumLevel: LogEventLevel.Warning).CreateLogger();
 
             CreateHostBuilder(args).Build().Run();
 

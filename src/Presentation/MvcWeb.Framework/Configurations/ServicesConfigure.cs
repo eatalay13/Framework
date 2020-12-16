@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
+using Services.Lisence;
 using Services.NavigationMenu;
 
 namespace MvcWeb.Framework.Configurations
@@ -20,6 +21,7 @@ namespace MvcWeb.Framework.Configurations
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IEncryptionService, EncryptionService>();
+            services.AddScoped<ILicenseService,LicenseService>();
 
             services.AddScoped<DbContext, AppDbContext>();
             services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));

@@ -58,4 +58,4 @@
     }
 }
 
-@await Task.Run(()=> CategoryRecursive(Model));
+@await Task.Run(async () => await CategoryRecursive(Model))

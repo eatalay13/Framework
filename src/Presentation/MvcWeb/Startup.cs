@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcWeb.Framework.Configurations;
 using MvcWeb.Framework.Handlers;
+using MvcWeb.Framework.Middlewares;
 
 namespace MvcWeb
 {
@@ -74,6 +75,8 @@ namespace MvcWeb
                 Authorization = new[] { new HangfireAuthorizationFilter() },
                 DashboardTitle = "Arkaplan servisleri",
             });
+
+            app.UseLisenceCheck();
 
             app.UseAuthentication();
             app.UseAuthorization();
