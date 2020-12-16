@@ -1,4 +1,5 @@
-﻿using Core.Infrastructure.Email;
+﻿using Core.Helpers;
+using Core.Infrastructure.Email;
 using Core.Infrastructure.NotificationService;
 using Data.Contexts;
 using Data.Repositories;
@@ -18,6 +19,7 @@ namespace MvcWeb.Framework.Configurations
         {
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
 
             services.AddScoped<DbContext, AppDbContext>();
             services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));

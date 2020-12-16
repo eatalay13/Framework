@@ -74,7 +74,6 @@ namespace MvcWeb
                 Authorization = new[] { new HangfireAuthorizationFilter() },
                 DashboardTitle = "Arkaplan servisleri",
             });
-            app.UseHangfireServer();
 
             app.UseAuthentication();
             app.UseAuthorization();
