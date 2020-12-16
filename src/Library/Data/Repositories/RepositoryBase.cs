@@ -17,7 +17,6 @@ namespace Data.Repositories
         #region Fields
 
         private readonly DbSet<TEntity> _entities;
-        private readonly DbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         #endregion
@@ -43,7 +42,6 @@ namespace Data.Repositories
 
         public RepositoryBase(DbContext context, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
             _httpContextAccessor = httpContextAccessor;
             _entities = context.Set<TEntity>();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.CustomAttributes
 {
-    
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ParentMenuAttribute : Attribute
     {
         public string ParentMenuName { get; }

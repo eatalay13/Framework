@@ -1,19 +1,15 @@
 using Core.Helpers;
 using Core.Infrastructure.Email;
 using Data.Contexts;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcWeb.Framework.Configurations;
 using MvcWeb.Framework.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcWeb
 {
@@ -49,6 +45,9 @@ namespace MvcWeb
 
             services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("Default")));
+            services.AddHangfireServer();
+
             services.Configure<EmailSettings>(config => Configuration.GetSection("MailSettings").Bind(config));
         }
 
@@ -69,6 +68,13 @@ namespace MvcWeb
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseHangfireDashboard("/Hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() },
+                DashboardTitle = "Arkaplan servisleri",
+            });
+            app.UseHangfireServer();
 
             app.UseAuthentication();
             app.UseAuthorization();

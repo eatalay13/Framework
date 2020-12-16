@@ -28,7 +28,7 @@ namespace MvcWeb.Framework.Extensions
                 .Pager(pager =>
                 {
                     pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new[] { 5, 10, 20, 50, 100 });
+                    pager.AllowedPageSizes(new[] { 10, 20, 50, 100 });
                     pager.ShowInfo(true);
                 });
 

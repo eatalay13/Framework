@@ -36,7 +36,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [ParentMenu(MenuNamesDefaults.Role)]
-        [MenuItem(MenuNamesDefaults.Roles,order:1)]
+        [MenuItem(MenuNamesDefaults.Roles, 1)]
         public async Task<IActionResult> Roles()
         {
             var roleViewModel = new RoleListViewModel
@@ -48,7 +48,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [ParentMenu(MenuNamesDefaults.Role)]
-        [MenuItem(MenuNamesDefaults.CreateRole, order: 2)]
+        [MenuItem(MenuNamesDefaults.CreateRole, 2)]
         public IActionResult CreateRole()
         {
             return View(new AddRoleViewModel());
@@ -71,7 +71,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [ParentMenu(MenuNamesDefaults.User)]
-        [MenuItem(MenuNamesDefaults.Users, order: 3)]
+        [MenuItem(MenuNamesDefaults.Users, 3)]
         public async Task<IActionResult> Users()
         {
             var model = new UserListViewModel
@@ -83,7 +83,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [ParentMenu(MenuNamesDefaults.User)]
-        [MenuItem(MenuNamesDefaults.UpdateUser, order: 4,isVisible:false)]
+        [MenuItem(MenuNamesDefaults.UpdateUser, 4, false)]
         public async Task<IActionResult> EditUser(int id)
         {
             if (id <= 0) return RedirectToAction(nameof(Users));
@@ -131,7 +131,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [ParentMenu(MenuNamesDefaults.Role)]
-        [MenuItem(MenuNamesDefaults.EditRole, order: 3, isVisible: false)]
+        [MenuItem(MenuNamesDefaults.EditRole, 3, false)]
         public async Task<IActionResult> EditRolePermission(int id)
         {
             if (id <= 0) return RedirectToAction(nameof(Roles));
