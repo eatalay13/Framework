@@ -1,6 +1,9 @@
+using Entities.Dtos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Configurations;
 using System;
+using System.IO;
 using System.Windows.Forms;
 using WinApp.SerialGenerator.LisansManager;
 
@@ -14,6 +17,11 @@ namespace WinApp.SerialGenerator
         [STAThread]
         static void Main()
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -22,6 +30,7 @@ namespace WinApp.SerialGenerator
             var services = new ServiceCollection();
             services.AddScoped<SerialManager>();
             services.AddScoped<SerialGenerateForm>();
+            services.Configure<LicenseDto>(config => configuration.GetSection("License").Bind(config));
 
             services.AddServicesOptions();
 

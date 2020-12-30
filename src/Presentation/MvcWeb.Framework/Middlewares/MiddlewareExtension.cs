@@ -9,9 +9,9 @@ namespace MvcWeb.Framework.Middlewares
 {
     public static class MiddlewareExtension
     {
-        public static IApplicationBuilder UseLisenceCheck(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseLicenseCheck(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<LisenceCheckMiddleware>();
+            return builder.UseMiddleware<LicenseCheckMiddleware>();
         }
     }
 }

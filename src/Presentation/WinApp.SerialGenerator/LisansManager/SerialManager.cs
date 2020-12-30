@@ -4,23 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Helpers;
+using Entities.Dtos;
+using Newtonsoft.Json;
+using Services.License;
 
 namespace WinApp.SerialGenerator.LisansManager
 {
     public class SerialManager
     {
-        private readonly IEncryptionService _encryptionService;
+        private readonly ILicenseService _encryptionService;
 
-        public SerialManager(IEncryptionService encryptionService)
+        public SerialManager(ILicenseService encryption)
         {
-            _encryptionService = encryptionService;
+            _encryptionService = encryption;
         }
 
-        public string GenerateSerial(string domain, string brandName)
+        public string GenerateSerial(GenerateLicenseDto generateLicense)
         {
-            var serial = _encryptionService.EncryptByHex(string.Join(';', domain, brandName));
+            var newLicenseKey = _encryptionService.GenerateLicense(generateLicense);
 
-            return serial;
+            return newLicenseKey;
         }
     }
 }

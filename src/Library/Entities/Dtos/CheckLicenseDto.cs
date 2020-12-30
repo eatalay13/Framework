@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Lisence
+namespace Entities.Dtos
 {
-    public interface ILicenseService
+    public class LicenseDto
     {
-        string GetLicense();
-        bool IsValidLicense();
+        public string Key { get; set; }
+        public string Brand { get; set; }
     }
 }

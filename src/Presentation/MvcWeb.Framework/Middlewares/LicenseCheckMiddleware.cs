@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Services.Lisence;
+using Services.License;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MvcWeb.Framework.Middlewares
 {
-    public class LisenceCheckMiddleware
+    public class LicenseCheckMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public LisenceCheckMiddleware(RequestDelegate next)
+        public LicenseCheckMiddleware(RequestDelegate next)
         {
             _next = next;
         }

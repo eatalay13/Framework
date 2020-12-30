@@ -1,6 +1,7 @@
 using Core.Helpers;
 using Core.Infrastructure.Email;
 using Data.Contexts;
+using Entities.Dtos;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,6 +51,7 @@ namespace MvcWeb
             services.AddHangfireServer();
 
             services.Configure<EmailSettings>(config => Configuration.GetSection("MailSettings").Bind(config));
+            services.Configure<LicenseDto>(config => Configuration.GetSection("License").Bind(config));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,7 +78,7 @@ namespace MvcWeb
                 DashboardTitle = "Arkaplan servisleri",
             });
 
-            app.UseLisenceCheck();
+            app.UseLicenseCheck();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -32,6 +32,9 @@ namespace WinApp.SerialGenerator
             this.label1 = new System.Windows.Forms.Label();
             this.tbxDomainName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbxFirma = new System.Windows.Forms.TextBox();
@@ -58,34 +61,68 @@ namespace WinApp.SerialGenerator
             this.tbxDomainName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxDomainName.Location = new System.Drawing.Point(129, 50);
+            this.tbxDomainName.Location = new System.Drawing.Point(143, 50);
             this.tbxDomainName.Name = "tbxDomainName";
-            this.tbxDomainName.Size = new System.Drawing.Size(454, 39);
+            this.tbxDomainName.Size = new System.Drawing.Size(440, 39);
             this.tbxDomainName.TabIndex = 2;
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.btnGenerate);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tbxFirma);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbxDomainName);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(15, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(603, 237);
+            this.groupBox1.Size = new System.Drawing.Size(603, 399);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Lisans Bilgileri";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 173);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(377, 36);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "Lisans son geçerli tarihi var mı?";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 246);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(131, 32);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Son Tarih : ";
+            this.label3.Visible = false;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(143, 246);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(440, 39);
+            this.dateTimePicker1.TabIndex = 6;
+            this.dateTimePicker1.Visible = false;
+            // 
             // btnGenerate
             // 
-            this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(433, 174);
+            this.btnGenerate.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnGenerate.Location = new System.Drawing.Point(433, 316);
             this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(150, 46);
+            this.btnGenerate.Size = new System.Drawing.Size(150, 67);
             this.btnGenerate.TabIndex = 5;
             this.btnGenerate.Text = "Oluştur";
             this.btnGenerate.UseVisualStyleBackColor = true;
@@ -108,20 +145,19 @@ namespace WinApp.SerialGenerator
             this.tbxFirma.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxFirma.Location = new System.Drawing.Point(129, 114);
+            this.tbxFirma.Location = new System.Drawing.Point(143, 114);
             this.tbxFirma.Name = "tbxFirma";
-            this.tbxFirma.Size = new System.Drawing.Size(454, 39);
+            this.tbxFirma.Size = new System.Drawing.Size(440, 39);
             this.tbxFirma.TabIndex = 4;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tbxSerial);
-            this.groupBox2.Location = new System.Drawing.Point(12, 255);
+            this.groupBox2.Location = new System.Drawing.Point(12, 417);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(603, 225);
+            this.groupBox2.Size = new System.Drawing.Size(603, 318);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Serial Key";
@@ -137,7 +173,7 @@ namespace WinApp.SerialGenerator
             this.tbxSerial.Name = "tbxSerial";
             this.tbxSerial.PlaceholderText = "Bilgileri girdikten sonra oluştur butonuna tıklayınız.";
             this.tbxSerial.ReadOnly = true;
-            this.tbxSerial.Size = new System.Drawing.Size(565, 168);
+            this.tbxSerial.Size = new System.Drawing.Size(565, 261);
             this.tbxSerial.TabIndex = 5;
             this.tbxSerial.TabStop = false;
             // 
@@ -147,7 +183,7 @@ namespace WinApp.SerialGenerator
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(630, 492);
+            this.ClientSize = new System.Drawing.Size(630, 747);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
@@ -172,6 +208,9 @@ namespace WinApp.SerialGenerator
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.TextBox tbxSerial;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 

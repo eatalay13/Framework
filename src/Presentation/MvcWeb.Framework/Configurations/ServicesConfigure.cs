@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
-using Services.Lisence;
+using Services.License;
 using Services.NavigationMenu;
 
 namespace MvcWeb.Framework.Configurations
