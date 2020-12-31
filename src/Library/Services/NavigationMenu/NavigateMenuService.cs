@@ -7,6 +7,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Entities.Dtos;
+using Entities.Models.Menu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.ValidationRules;
@@ -15,7 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Services.NavigationMenu
+namespace Services.NavigateMenu
 {
     public class NavigateMenuService : INavigateMenuService
     {
@@ -33,22 +34,22 @@ namespace Services.NavigationMenu
             return await DataSourceLoader.LoadAsync(data, loadOptions);
         }
 
-        public IList<Entities.Models.Menu.NavigationMenu> GetMenuList()
+        public IList<NavigationMenu> GetMenuList()
         {
             return _uow.NavigationMenuRepo.GetAll();
         }
 
-        public IPagedList<Entities.Models.Menu.NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10)
+        public IPagedList<NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10)
         {
             return _uow.NavigationMenuRepo.GetAllPaged(null, pageIndex, pageSize);
         }
 
-        public Entities.Models.Menu.NavigationMenu GetMenuById(int id)
+        public NavigationMenu GetMenuById(int id)
         {
             return _uow.NavigationMenuRepo.GetById(id);
         }
 
-        public void AddNavigationMenu(Entities.Models.Menu.NavigationMenu menu)
+        public void AddNavigationMenu(NavigationMenu menu)
         {
             ValidationTool.Validate(typeof(NavigateMenuValidator), menu);
 
@@ -57,7 +58,7 @@ namespace Services.NavigationMenu
             _uow.SaveChanges();
         }
 
-        public void UpdateNavigationMenu(Entities.Models.Menu.NavigationMenu menu)
+        public void UpdateNavigationMenu(NavigationMenu menu)
         {
             if (menu is null)
                 return;
@@ -82,7 +83,7 @@ namespace Services.NavigationMenu
 
             foreach (var menu in allAuthController)
             {
-                Entities.Models.Menu.NavigationMenu parentMenu = null;
+                NavigationMenu parentMenu = null;
 
                 if (!menu.ParentMenuName.IsNullOrEmptyWhiteSpace())
                 {
@@ -91,7 +92,7 @@ namespace Services.NavigationMenu
 
                     if (parentMenu is null)
                     {
-                        parentMenu = new Entities.Models.Menu.NavigationMenu
+                        parentMenu = new NavigationMenu
                         {
                             Name = menu.ParentMenuName,
                             DisplayOrder = menu.DisplayOrder,
@@ -109,7 +110,7 @@ namespace Services.NavigationMenu
                         continue;
                 }
 
-                var newMenu = new Entities.Models.Menu.NavigationMenu
+                var newMenu = new NavigationMenu
                 {
                     Name = menu.Name,
                     ParentMenuId = parentMenu?.Id,
@@ -186,26 +187,23 @@ namespace Services.NavigationMenu
                 });
             }
 
-            navigateList.RemoveAll(e => e is null);
-
             return navigateList;
         }
 
         private bool SetMenuVisible(MenuItemAttribute menuItemAttr, ParentMenuAttribute actionParentMenuAttr,
             ParentMenuAttribute ctrlParentMenuAttr)
         {
-            if (actionParentMenuAttr != null || ctrlParentMenuAttr != null || menuItemAttr == null)
-                switch (menuItemAttr)
-                {
-                    case null when actionParentMenuAttr != null && ctrlParentMenuAttr != null:
-                        return actionParentMenuAttr.IsVisible;
-                    case null when actionParentMenuAttr == null && ctrlParentMenuAttr != null:
-                        return ctrlParentMenuAttr.IsVisible;
-                }
-            else
+            if (menuItemAttr != null)
                 return menuItemAttr.IsVisible;
 
-            return false;
+            else if (menuItemAttr == null && actionParentMenuAttr != null)
+                return actionParentMenuAttr.IsVisible;
+
+            else if (menuItemAttr == null && actionParentMenuAttr == null && ctrlParentMenuAttr != null)
+                return ctrlParentMenuAttr.IsVisible;
+
+            else
+                return false;
         }
 
         public void DeleteNavigationMenu(int id)

@@ -6,7 +6,7 @@ using Entities.Models.Menu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MvcWeb.Framework.Extensions;
-using Services.NavigationMenu;
+using Services.NavigateMenu;
 
 namespace MvcWeb.Areas.Admin.DevExpApis
 {

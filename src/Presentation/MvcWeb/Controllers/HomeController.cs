@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MvcWeb.Models;
 using Services.Authentication;
-using Services.NavigationMenu;
+using Services.NavigateMenu;
 using System;
 using System.Diagnostics;
 using System.IO;

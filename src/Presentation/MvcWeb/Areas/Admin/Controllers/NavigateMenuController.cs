@@ -2,7 +2,7 @@
 using Core.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.NavigationMenu;
+using Services.NavigateMenu;
 using System.Reflection;
 
 namespace MvcWeb.Areas.Admin.Controllers

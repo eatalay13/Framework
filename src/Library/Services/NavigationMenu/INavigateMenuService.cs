@@ -6,7 +6,7 @@ using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Entities.Dtos;
 
-namespace Services.NavigationMenu
+namespace Services.NavigateMenu
 {
     public interface INavigateMenuService
     {

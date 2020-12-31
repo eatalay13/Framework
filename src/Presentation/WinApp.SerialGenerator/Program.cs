@@ -32,7 +32,7 @@ namespace WinApp.SerialGenerator
             services.AddScoped<SerialGenerateForm>();
             services.Configure<LicenseDto>(config => configuration.GetSection("License").Bind(config));
 
-            services.AddServicesOptions();
+            services.AddServicesOptions(configuration);
 
             using ServiceProvider serviceProvider = services.BuildServiceProvider();
             var mainForm = serviceProvider.GetRequiredService<SerialGenerateForm>();

@@ -1,9 +1,11 @@
-﻿using Data.Contexts;
+﻿using Core.Helpers;
+using Data.Contexts;
 using Entities.Models.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using MvcWeb.Framework.Handlers;
 using Services.Authentication;
 using System;
 using System.Collections.Generic;
@@ -56,6 +58,14 @@ namespace MvcWeb.Framework.Configurations
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyDefaults.AuthorizationPolicy, policyCorrectUser =>
+                {
+                    policyCorrectUser.Requirements.Add(new AuthorizationRequirement());
+                });
             });
 
             return services;

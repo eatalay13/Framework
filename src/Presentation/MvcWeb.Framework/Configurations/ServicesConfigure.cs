@@ -5,24 +5,33 @@ using Core.Infrastructure.ViewToString;
 using Data.Contexts;
 using Data.Repositories;
 using Data.UnitOfWork;
+using Entities.Dtos;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
 using Services.License;
-using Services.NavigationMenu;
+using Services.NavigateMenu;
 
 namespace MvcWeb.Framework.Configurations
 {
     public static class ServicesConfigure
     {
-        public static IServiceCollection AddServicesOptions(this IServiceCollection services)
+        public static IServiceCollection AddServicesOptions(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("Default"),
+                    b => b.MigrationsAssembly("Data"));
+            });
+
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IEncryptionService, EncryptionService>();
-            services.AddScoped<ILicenseService,LicenseService>();
+            services.AddScoped<ILicenseService, LicenseService>();
             services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             services.AddScoped<DbContext, AppDbContext>();
@@ -36,6 +45,12 @@ namespace MvcWeb.Framework.Configurations
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
             services.AddHttpContextAccessor();
+
+            services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("Default")));
+            services.AddHangfireServer();
+
+            services.Configure<EmailSettings>(config => configuration.GetSection("MailSettings").Bind(config));
+            services.Configure<LicenseDto>(config => configuration.GetSection("License").Bind(config));
 
             return services;
         }
