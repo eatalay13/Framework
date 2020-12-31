@@ -51,7 +51,7 @@ namespace Services.License
 
                 return systemDomain == licenseDto.Domain
                     && license.Brand == licenseDto.BrandName
-                    && (!licenseDto.IsTimeExpiredLicense || licenseDto.TimeIsExpire);
+                    && (!licenseDto.IsTimeExpiredLicense || !licenseDto.TimeIsExpire);
             }
             catch
             {
