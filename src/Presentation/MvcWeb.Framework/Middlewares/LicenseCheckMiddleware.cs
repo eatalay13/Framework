@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Core.Infrastructure.ViewToString;
+using Microsoft.AspNetCore.Http;
 using Services.License;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,14 @@ namespace MvcWeb.Framework.Middlewares
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, ILicenseService lisenceService)
+        public async Task Invoke(HttpContext httpContext, ILicenseService lisenceService, IRazorViewToStringRenderer razorViewToString)
         {
 
             if (!lisenceService.IsValidLicense())
             {
                 httpContext.Response.StatusCode = 400;
-                await httpContext.Response.WriteAsJsonAsync("/InvalidLisance");
+                var viewString = await razorViewToString.RenderViewToStringAsync("/Areas/Admin/Views/License/InvalidLicense.cshtml", new { });
+                await httpContext.Response.WriteAsync(viewString);
                 return;
             }
             await _next.Invoke(httpContext);
