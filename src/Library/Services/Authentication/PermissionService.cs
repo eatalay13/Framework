@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Extensions;
+﻿using Core.Extensions;
 using Data.Contexts;
 using Entities.Models.Menu;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Services.Authentication
 {
@@ -20,38 +18,39 @@ namespace Services.Authentication
             _context = context;
         }
 
-        public async Task<List<Entities.Models.Menu.NavigationMenu>> GetMenuItemsAsync(ClaimsPrincipal principal)
+        public async Task<List<NavigationMenu>> GetMenuItemsAsync(ClaimsPrincipal principal)
         {
             var isAuthenticated = principal.Identity != null && principal.Identity.IsAuthenticated;
             if (!isAuthenticated)
-                return new List<Entities.Models.Menu.NavigationMenu>();
+                return new List<NavigationMenu>();
 
             var roleIds = await GetUserRoleIds(principal);
-            var data = await (from menu in _context.RoleMenu
+
+            var data = await (from menu in _context.RoleMenu.AsQueryable()
                               where roleIds.Contains(menu.RoleId) && menu.NavigationMenu.Visible
                               select menu)
-                              .Select(m => new Entities.Models.Menu.NavigationMenu()
-                              {
-                                  Id = m.NavigationMenu.Id,
-                                  Name = m.NavigationMenu.Name,
-                                  Area = m.NavigationMenu.Area,
-                                  ActionName = m.NavigationMenu.ActionName,
-                                  ControllerName = m.NavigationMenu.ControllerName,
-                                  IsExternal = m.NavigationMenu.IsExternal,
-                                  ExternalUrl = m.NavigationMenu.ExternalUrl,
-                                  DisplayOrder = m.NavigationMenu.DisplayOrder,
-                                  ParentMenuId = m.NavigationMenu.ParentMenuId,
-                                  Visible = m.NavigationMenu.Visible,
-                              }).Distinct().ToListAsync();
+                           .Select(m => new NavigationMenu()
+                           {
+                               Id = m.NavigationMenu.Id,
+                               Name = m.NavigationMenu.Name,
+                               Area = m.NavigationMenu.Area,
+                               ActionName = m.NavigationMenu.ActionName,
+                               ControllerName = m.NavigationMenu.ControllerName,
+                               IsExternal = m.NavigationMenu.IsExternal,
+                               ExternalUrl = m.NavigationMenu.ExternalUrl,
+                               DisplayOrder = m.NavigationMenu.DisplayOrder,
+                               ParentMenuId = m.NavigationMenu.ParentMenuId,
+                               Visible = m.NavigationMenu.Visible,
+                           }).Distinct().ToListAsync();
 
-            return data.OrderBy(o=> o.DisplayOrder).ToList();
+            return data.OrderBy(o => o.DisplayOrder).ToList();
         }
 
         public async Task<bool> GetMenuItemsAsync(ClaimsPrincipal ctx, string ctrl, string act, string area = null)
         {
             var result = false;
             var roleIds = await GetUserRoleIds(ctx);
-            var data = await (from menu in _context.RoleMenu
+            var data = await (from menu in _context.RoleMenu.AsQueryable()
                               where roleIds.Contains(menu.RoleId)
                               select menu)
                               .Select(m => m.NavigationMenu).Distinct().ToListAsync();
@@ -66,14 +65,14 @@ namespace Services.Authentication
             return result;
         }
 
-        public async Task<List<Entities.Models.Menu.NavigationMenu>> GetPermissionsByRoleIdAsync(int id)
+        public async Task<List<NavigationMenu>> GetPermissionsByRoleIdAsync(int id)
         {
             var items = await (from m in _context.NavigationMenu
-                               join rm in _context.RoleMenu
+                               join rm in _context.RoleMenu.AsQueryable()
                                 on new { X1 = m.Id, X2 = id } equals new { X1 = rm.NavigationMenuId, X2 = rm.RoleId }
                                 into rmp
                                from rm in rmp.DefaultIfEmpty()
-                               select new Entities.Models.Menu.NavigationMenu()
+                               select new NavigationMenu()
                                {
                                    Id = m.Id,
                                    Name = m.Name,
@@ -95,7 +94,7 @@ namespace Services.Authentication
 
         public async Task<bool> SetPermissionsByRoleIdAsync(int id, IEnumerable<int> permissionIds)
         {
-            var existing = await _context.RoleMenu.Where(x => x.RoleId == id).ToListAsync();
+            var existing = await _context.RoleMenu.AsQueryable().Where(x => x.RoleId == id).ToListAsync();
             _context.RemoveRange(existing);
 
             foreach (var item in permissionIds)
@@ -115,7 +114,7 @@ namespace Services.Authentication
         private async Task<List<int>> GetUserRoleIds(ClaimsPrincipal ctx)
         {
             var userId = GetUserId(ctx);
-            var data = await (from role in _context.UserRoles
+            var data = await (from role in _context.UserRoles.AsQueryable()
                               where role.UserId == userId
                               select role.RoleId).ToListAsync();
 

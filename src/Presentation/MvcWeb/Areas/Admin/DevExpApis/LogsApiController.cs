@@ -13,7 +13,7 @@ namespace MvcWeb.Areas.Admin.DevExpApis
 {
     [Area(AreaDefaults.AdminAreaName)]
     [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
-    [ParentMenu(MenuNamesDefaults.ApiMenus,isVisible:false)]
+    [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class LogsApiController : Controller
     {
         private AppDbContext _context;
@@ -26,7 +26,7 @@ namespace MvcWeb.Areas.Admin.DevExpApis
         [HttpGet]
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions)
         {
-            var log = _context.Log.Select(i => new
+            var log = _context.Log.AsQueryable().Select(i => new
             {
                 i.Message,
                 i.Level,
@@ -42,7 +42,7 @@ namespace MvcWeb.Areas.Admin.DevExpApis
         [HttpDelete]
         public async Task Delete(int key)
         {
-            var model = await _context.Log.FirstOrDefaultAsync(item => item.Id == key);
+            var model = await _context.Log.AsQueryable().FirstOrDefaultAsync(item => item.Id == key);
 
             _context.Log.Remove(model);
             await _context.SaveChangesAsync();

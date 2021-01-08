@@ -62,7 +62,7 @@ namespace Data.Repositories
 
             var query = Table;
             if (typeof(TEntity).GetInterface(nameof(ISoftDeletedEntity)) != null)
-                query = _entities.OfType<ISoftDeletedEntity>().Where(entry => !entry.Deleted).OfType<TEntity>();
+                query = _entities.AsQueryable().OfType<ISoftDeletedEntity>().Where(entry => !entry.Deleted).OfType<TEntity>();
 
             var entries = query.Where(entry => ids.Contains(entry.Id)).ToList();
 
