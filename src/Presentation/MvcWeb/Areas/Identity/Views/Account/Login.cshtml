@@ -1,4 +1,7 @@
-﻿@model LoginViewModel
+﻿@inject SignInManager<User> SignInManager
+@using System.Linq
+
+@model LoginViewModel
 @{
     ViewData["Title"] = "Giriş Yap";
 }
@@ -7,42 +10,56 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" rel="stylesheet" type="text/css" />
 }
 
-<div class="login-form login-signin py-11">
+<div class="login-signin">
+    <div class="mb-20">
+        <h3>Giriş Yapın</h3>
+        <div class="text-muted font-weight-bold">Gerekli bilgileri girerek giriş yapınız:</div>
+    </div>
     <form asp-action="Login" method="post" class="form" role="form">
         @Html.HiddenFor(e => e.ReturnUrl)
-        <div class="text-center pb-8">
-            <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Giriş Yap</h2>
-            <span class="text-muted font-weight-bold font-size-h4">
-                Veya
-                <a asp-action="Register" class="text-primary font-weight-bolder">Yeni Hesap Oluştur.</a>
-            </span>
-            <div asp-validation-summary="All" class="text-danger"></div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Email" class="font-size-h6 font-weight-bolder text-dark"></label>
-            <input asp-for="Email" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" autocomplete="off" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group mb-5">
+            <input class="form-control h-auto form-control-solid py-4 px-8" asp-for="Email" placeholder="Email" autocomplete="off" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-
-        <div class="form-group">
-            <div class="d-flex justify-content-between mt-n5">
-                <label asp-for="Password" class="font-size-h6 font-weight-bolder text-dark pt-5"></label>
-                <a asp-action="ResetPassword" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">Şifremi unuttum?</a>
-            </div>
-            <input asp-for="Password" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" autocomplete="off" />
+        <div class="form-group mb-5">
+            <input class="form-control h-auto form-control-solid py-4 px-8" asp-for="Password" placeholder="Password" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label class="checkbox mb-0">
-                <input asp-for="RememberMe" />
-                <span></span>
-                &nbsp; Beni Hatırla
-            </label>
+        <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+            <div class="checkbox-inline">
+                <label class="checkbox m-0 text-muted">
+                    <input asp-for="RememberMe" />
+                    <span></span>Beni Hatırla
+                </label>
+            </div>
+            <a asp-action="ForgotPassword" class="text-hover-primary"><strong>Şifremi Unuttum?</strong></a>
         </div>
-
-        <div class="text-center pt-2">
-            <button type="submit" class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3">Giriş Yap</button>
-        </div>
+        <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">
+            <span class="fas fa-fingerprint"></span>&nbsp; Giriş Yap
+        </button>
     </form>
+    <div class="mt-10">
+        <span class="opacity-70 mr-4">Henüz bir hesabın yok mu?</span>
+        <a asp-action="Register" class="text-hover-primary font-weight-bold"><strong>Hesap oluştur!</strong></a>
+    </div>
+    <hr />
+    <div class="mt-10" style="max-width: 450px;">
+        <div class="text-center">
+            @{ var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                if (loginProviders.Count > 0)
+                {
+                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                        @foreach (var provider in loginProviders)
+                        {
+                            <button type="submit" class="btn btn-social btn-@provider.Name.ToLower() mt-3" name="provider" value="@provider.Name" title="@provider.DisplayName hesabınla giriş yap.">
+                                <span class="fab fa-@provider.Name.ToLower()"></span>
+                                @provider.Name ile Giriş Yap
+                            </button>
+                        }
+                    </form>
+                }
+            }
+        </div>
+    </div>
 </div>

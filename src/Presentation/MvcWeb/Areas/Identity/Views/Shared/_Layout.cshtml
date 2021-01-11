@@ -1,14 +1,11 @@
-﻿@inject SignInManager<User> SignInManager
-@using System.Linq
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Flixada</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link href="~/css/pages/login/login-29cd7.css?v=7.1.6" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <link href="~/css/pages/login/login-49cd7.css?v=7.1.5" rel="stylesheet" type="text/css" asp-append-version="true" />
     <link href="~/plugins/global/plugins.bundle9cd7.css?v=7.1.5" rel="stylesheet" type="text/css" />
     <link href="~/plugins/custom/prismjs/prismjs.bundle9cd7.css?v=7.1.5" rel="stylesheet" type="text/css" />
     <link href="~/css/style.bundle9cd7.css?v=7.1.5" rel="stylesheet" type="text/css" />
@@ -16,47 +13,17 @@
 </head>
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled sidebar-enabled page-loading">
     <div class="d-flex flex-column flex-root">
-        <div class="login login-2 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
-            <div class="login-aside order-2 order-lg-1 d-flex flex-row-auto position-relative overflow-hidden">
-                <div class="d-flex flex-column-fluid flex-column justify-content-between py-9 px-7 py-lg-13 px-lg-35">
-                    <a href="#" class="text-center pt-2">
-                        <img src="~/media/logos/logo-1.png" class="max-h-75px" alt="" />
-                    </a>
-                    <div class="d-flex flex-column-fluid flex-column flex-center">
-                        <partial name="_Notifications" />
-                        @RenderBody()
+        <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
+            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat">
+                <div class="login-form text-center p-7 position-relative overflow-hidden">
+                    <div class="d-flex flex-center mb-15">
+                        <a href="#">
+                            <img src="~/media/logos/logo-letter-13.png" class="max-h-75px" alt="" />
+                        </a>
                     </div>
-                    <hr />
-                    <div class="text-center">
-                        @{ var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                            if (loginProviders.Count > 0)
-                            {
-                                <div class="row">
-                                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                                        @foreach (var provider in loginProviders)
-                                        {
-                                            <button type="submit" class="btn btn-social btn-@provider.Name.ToLower()" name="provider" value="@provider.Name" title="@provider.DisplayName hesabınla giriş yap.">
-                                                <span class="fab fa-@provider.Name.ToLower()"></span>
-                                                @provider.Name ile Giriş Yap
-                                            </button>
-                                        }
-                                    </form>
-                                </div>
-                            }
-                        }
-                    </div>
+                    <partial name="_Notifications" />
+                    @RenderBody()
                 </div>
-            </div>
-
-            <div class="content order-1 order-lg-2 d-flex flex-column w-100 pb-0" style="background-color: #B1DCED;">
-                <div class="d-flex flex-column justify-content-center text-center pt-lg-40 pt-md-5 pt-sm-5 px-lg-0 pt-5 px-7">
-                    <h3 class="display4 font-weight-bolder my-7 text-dark" style="color: #986923;">Mükemmel Yönetim</h3>
-                    <p class="font-weight-bolder font-size-h2-md font-size-lg text-dark opacity-70">
-                        User Experience &amp; Interface Design, Product Strategy
-                        <br />Flixada Yazılım
-                    </p>
-                </div>
-                <div class="content-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center" style="background-image: url(/media/login-visual-2.svg);"></div>
             </div>
         </div>
     </div>
@@ -78,7 +45,6 @@
     <script src="~/plugins/custom/prismjs/prismjs.bundle9cd7.js?v=7.1.5"></script>
     <script src="~/js/scripts.bundle9cd7.js?v=7.1.5"></script>
     <partial name="_ValidationScriptsPartial" />
-    @*<script src="~/js/pages/custom/login/login-general9cd7.js?v=7.1.5"></script>*@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
