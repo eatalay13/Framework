@@ -4,6 +4,7 @@ using Entities.Models.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
@@ -66,6 +67,39 @@ namespace MvcWeb.Framework.Configurations
                 {
                     policyCorrectUser.Requirements.Add(new AuthorizationRequirement());
                 });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddFacebookLogin(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddGoogleLogin(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = configuration["Authentication:Facebook:AppId"];
+                googleOptions.ClientSecret = configuration["Authentication:Facebook:AppSecret"];
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddMicrosoftLogin(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+            {
+                microsoftOptions.ClientId = configuration["Authentication:Facebook:AppId"];
+                microsoftOptions.ClientSecret = configuration["Authentication:Facebook:AppSecret"];
             });
 
             return services;

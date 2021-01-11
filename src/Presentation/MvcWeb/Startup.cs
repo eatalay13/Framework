@@ -22,6 +22,10 @@ namespace MvcWeb
 
             services.AddIdentityOptions();
 
+            services.AddFacebookLogin(Configuration);
+            services.AddGoogleLogin(Configuration);
+            services.AddMicrosoftLogin(Configuration);
+
             services.AddControllersWithViews()
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
         }

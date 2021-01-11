@@ -3,8 +3,13 @@
     ViewData["Title"] = "Giriş Yap";
 }
 
+@section Styles{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" rel="stylesheet" type="text/css" />
+}
+
 <div class="login-form login-signin py-11">
     <form asp-action="Login" method="post" class="form" role="form">
+        @Html.HiddenFor(e => e.ReturnUrl)
         <div class="text-center pb-8">
             <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Giriş Yap</h2>
             <span class="text-muted font-weight-bold font-size-h4">
