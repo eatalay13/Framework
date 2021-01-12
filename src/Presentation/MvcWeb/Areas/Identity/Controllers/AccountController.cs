@@ -1,6 +1,7 @@
 ﻿using Core.Extensions;
 using Core.Helpers;
 using Core.Infrastructure.Email;
+using Core.Infrastructure.NotificationService;
 using Entities.Models.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -22,17 +23,20 @@ namespace MvcWeb.Areas.Identity.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly INotificationService _notificationService;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            INotificationService notificationService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _notificationService = notificationService;
         }
 
         [TempData]
@@ -189,7 +193,7 @@ namespace MvcWeb.Areas.Identity.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -197,7 +201,7 @@ namespace MvcWeb.Areas.Identity.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
@@ -262,6 +266,7 @@ namespace MvcWeb.Areas.Identity.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
+                _notificationService.SuccessNotification($"{info.LoginProvider} ile başarılı bir şekilde giriş yapıldı.");
                 return RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
@@ -339,23 +344,21 @@ namespace MvcWeb.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
-                }
+            if (!ModelState.IsValid)
+                return View(model);
 
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
-            // If execution got this far, something failed, redisplay the form.
-            return View(model);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
+            await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+               $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 
         [HttpGet]
@@ -370,9 +373,8 @@ namespace MvcWeb.Areas.Identity.Controllers
         public IActionResult ResetPassword(string code = null)
         {
             if (code == null)
-            {
                 throw new ApplicationException("A code must be supplied for password reset.");
-            }
+
             var model = new ResetPasswordViewModel { Code = code };
             return View(model);
         }
@@ -382,11 +384,10 @@ namespace MvcWeb.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
+
             var user = await _userManager.FindByEmailAsync(model.Email);
+
             if (user == null)
             {
                 // Don't reveal that the user does not exist
@@ -429,13 +430,9 @@ namespace MvcWeb.Areas.Identity.Controllers
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
-            {
                 return Redirect(returnUrl);
-            }
             else
-            {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
         }
 
         #endregion

@@ -87,8 +87,8 @@ namespace MvcWeb.Framework.Configurations
         {
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
-                googleOptions.ClientId = configuration["Authentication:Facebook:AppId"];
-                googleOptions.ClientSecret = configuration["Authentication:Facebook:AppSecret"];
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
             });
 
             return services;
@@ -98,8 +98,8 @@ namespace MvcWeb.Framework.Configurations
         {
             services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = configuration["Authentication:Facebook:AppId"];
-                microsoftOptions.ClientSecret = configuration["Authentication:Facebook:AppSecret"];
+                microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
+                microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
             });
 
             return services;

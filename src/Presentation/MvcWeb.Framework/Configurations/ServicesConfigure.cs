@@ -52,6 +52,10 @@ namespace MvcWeb.Framework.Configurations
             services.Configure<EmailSettings>(config => configuration.GetSection("MailSettings").Bind(config));
             services.Configure<LicenseDto>(config => configuration.GetSection("License").Bind(config));
 
+            services.AddFacebookLogin(configuration);
+            services.AddGoogleLogin(configuration);
+            services.AddMicrosoftLogin(configuration);
+
             return services;
         }
     }
