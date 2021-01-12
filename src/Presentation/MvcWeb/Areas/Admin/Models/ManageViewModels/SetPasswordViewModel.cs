@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MvcWeb.Areas.Identity.Models.ManageViewModels
+namespace MvcWeb.Areas.Admin.Models.ManageViewModels
 {
     public class SetPasswordViewModel
     {

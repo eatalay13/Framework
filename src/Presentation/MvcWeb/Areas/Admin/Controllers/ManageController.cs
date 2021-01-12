@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MvcWeb.Areas.Identity.Models.ManageViewModels;
+using MvcWeb.Areas.Admin.Models.ManageViewModels;
 using System;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace MvcWeb.Areas.Identity.Controllers
+namespace MvcWeb.Areas.Admin.Controllers
 {
     [Authorize]
-    [Area(AreaDefaults.IdentityAreaName)]
+    [Area(AreaDefaults.AdminAreaName)]
     public class ManageController : Controller
     {
         private readonly UserManager<User> _userManager;
