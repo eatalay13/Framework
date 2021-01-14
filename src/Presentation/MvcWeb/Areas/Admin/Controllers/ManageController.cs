@@ -1,6 +1,8 @@
-﻿using Core.Extensions;
+﻿using Core.CustomAttributes;
+using Core.Extensions;
 using Core.Helpers;
 using Core.Infrastructure.Email;
+using Core.Infrastructure.NotificationService;
 using Entities.Models.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +20,7 @@ namespace MvcWeb.Areas.Admin.Controllers
 {
     [Authorize]
     [Area(AreaDefaults.AdminAreaName)]
+    [ParentMenu(MenuNamesDefaults.ProfileMenu)]
     public class ManageController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -25,7 +28,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
-
+        private readonly INotificationService _notificationService;
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
@@ -34,19 +37,19 @@ namespace MvcWeb.Areas.Admin.Controllers
           SignInManager<User> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          INotificationService notificationService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _notificationService = notificationService;
         }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
         [HttpGet]
+        [MenuItem(MenuNamesDefaults.MyProfile)]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -60,8 +63,7 @@ namespace MvcWeb.Areas.Admin.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                IsEmailConfirmed = user.EmailConfirmed
             };
 
             return View(model);
@@ -102,7 +104,7 @@ namespace MvcWeb.Areas.Admin.Controllers
                 }
             }
 
-            StatusMessage = "Your profile has been updated";
+            _notificationService.SuccessNotification("Profiliniz başarıyla güncelleştirildi.");
             return RedirectToAction(nameof(Index));
         }
 
@@ -126,7 +128,7 @@ namespace MvcWeb.Areas.Admin.Controllers
             var email = user.Email;
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            _notificationService.WarningNotification("Doğrulama kodu gönderildi. Lütfen mail adresinizi kontrol ediniz.");
             return RedirectToAction(nameof(Index));
         }
 
@@ -145,7 +147,7 @@ namespace MvcWeb.Areas.Admin.Controllers
                 return RedirectToAction(nameof(SetPassword));
             }
 
-            var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
+            var model = new ChangePasswordViewModel();
             return View(model);
         }
 
@@ -173,12 +175,13 @@ namespace MvcWeb.Areas.Admin.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _notificationService.SuccessNotification("Şifreniz başarıyla değiştirildi.");
 
             return RedirectToAction(nameof(ChangePassword));
         }
 
         [HttpGet]
+        [MenuItem(MenuNamesDefaults.ResetPassword)]
         public async Task<IActionResult> SetPassword()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -194,7 +197,7 @@ namespace MvcWeb.Areas.Admin.Controllers
                 return RedirectToAction(nameof(ChangePassword));
             }
 
-            var model = new SetPasswordViewModel { StatusMessage = StatusMessage };
+            var model = new SetPasswordViewModel();
             return View(model);
         }
 
@@ -221,12 +224,13 @@ namespace MvcWeb.Areas.Admin.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            StatusMessage = "Your password has been set.";
+            _notificationService.SuccessNotification("Şifreniz başarıyla Oluşturuldu.");
 
             return RedirectToAction(nameof(SetPassword));
         }
 
         [HttpGet]
+        [MenuItem(MenuNamesDefaults.ExternalLogin)]
         public async Task<IActionResult> ExternalLogins()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -240,7 +244,6 @@ namespace MvcWeb.Areas.Admin.Controllers
                 .Where(auth => model.CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
                 .ToList();
             model.ShowRemoveButton = await _userManager.HasPasswordAsync(user) || model.CurrentLogins.Count > 1;
-            model.StatusMessage = StatusMessage;
 
             return View(model);
         }
@@ -282,7 +285,8 @@ namespace MvcWeb.Areas.Admin.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = "The external login was added.";
+            _notificationService.SuccessNotification("Bağlantı başarıyla oluşturuldu.");
+
             return RedirectToAction(nameof(ExternalLogins));
         }
 
@@ -303,11 +307,13 @@ namespace MvcWeb.Areas.Admin.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            StatusMessage = "The external login was removed.";
+            _notificationService.SuccessNotification("Bağlantı başarıyla kaldırıldı.");
+
             return RedirectToAction(nameof(ExternalLogins));
         }
 
         [HttpGet]
+        [MenuItem(MenuNamesDefaults.TwoFactorAuth)]
         public async Task<IActionResult> TwoFactorAuthentication()
         {
             var user = await _userManager.GetUserAsync(User);
