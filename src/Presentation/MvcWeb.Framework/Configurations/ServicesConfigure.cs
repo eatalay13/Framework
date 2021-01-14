@@ -58,5 +58,39 @@ namespace MvcWeb.Framework.Configurations
 
             return services;
         }
+
+        public static IServiceCollection AddApiServicesOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("Default"),
+                    b => b.MigrationsAssembly("Data"));
+            });
+
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
+            services.AddScoped<ILicenseService, LicenseService>();
+
+            services.AddScoped<DbContext, AppDbContext>();
+            services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<INavigateMenuService, NavigateMenuService>();
+            services.AddScoped<IPermissionService, PermissionService>();
+
+            services.AddScoped<IAuthorizationHandler, PermissionHandler>();
+
+            services.AddHttpContextAccessor();
+
+            services.Configure<EmailSettings>(config => configuration.GetSection("MailSettings").Bind(config));
+            services.Configure<LicenseDto>(config => configuration.GetSection("License").Bind(config));
+
+            services.AddFacebookLogin(configuration);
+            services.AddGoogleLogin(configuration);
+            services.AddMicrosoftLogin(configuration);
+
+            return services;
+        }
     }
 }

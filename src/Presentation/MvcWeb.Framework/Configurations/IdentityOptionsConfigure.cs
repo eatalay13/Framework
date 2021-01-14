@@ -1,11 +1,13 @@
 ﻿using Core.Helpers;
 using Data.Contexts;
 using Entities.Models.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
 using System;
@@ -67,6 +69,29 @@ namespace MvcWeb.Framework.Configurations
                 {
                     policyCorrectUser.Requirements.Add(new AuthorizationRequirement());
                 });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddIdentityJwtOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddIdentityOptions();
+
+            var key = Encoding.ASCII.GetBytes(configuration["Application:Secret"]);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
 
             return services;
