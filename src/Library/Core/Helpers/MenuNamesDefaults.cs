@@ -25,5 +25,12 @@ namespace Core.Helpers
         public const string UpdateUser = "Kullanıcı Güncelle";
         public const string EditRole = "Rol Güncelle";
         public const string ApiMenus = "Api Istek Menuleri";
+
+
+        public const string ProfileMenu = "Profil";
+        public const string MyProfile = "Profilim";
+        public const string TwoFactorAuth = "2 Faktörlü Giriş";
+        public const string ResetPassword = "Şifre Değiştir";
+        public const string ExternalLogin = "Uygulama Bağlantıları";
     }
 }

@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "src\Library\Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcWeb", "src\Presentation\MvcWeb\MvcWeb.csproj", "{60961A95-57DE-43B5-AAB6-41A35003420C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinApp.SerialGenerator", "src\Presentation\WinApp.SerialGenerator\WinApp.SerialGenerator.csproj", "{46921A6B-B380-46F6-814D-C2AF8E4DE76E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinApp.SerialGenerator", "src\Presentation\WinApp.SerialGenerator\WinApp.SerialGenerator.csproj", "{46921A6B-B380-46F6-814D-C2AF8E4DE76E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WepApi", "src\Presentation\WepApi\WepApi.csproj", "{C5C901F7-685A-4788-939C-AD9297ED4BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{46921A6B-B380-46F6-814D-C2AF8E4DE76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46921A6B-B380-46F6-814D-C2AF8E4DE76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46921A6B-B380-46F6-814D-C2AF8E4DE76E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5C901F7-685A-4788-939C-AD9297ED4BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C901F7-685A-4788-939C-AD9297ED4BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C901F7-685A-4788-939C-AD9297ED4BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C901F7-685A-4788-939C-AD9297ED4BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{AB0F0AF9-AFA5-41D4-A7EF-E5D48E6113F2} = {AFC9FD6D-9315-45C2-A17A-0CAF177E3311}
 		{60961A95-57DE-43B5-AAB6-41A35003420C} = {E6AC6523-79CF-4995-BBE9-A5C3D00E4C53}
 		{46921A6B-B380-46F6-814D-C2AF8E4DE76E} = {E6AC6523-79CF-4995-BBE9-A5C3D00E4C53}
+		{C5C901F7-685A-4788-939C-AD9297ED4BBC} = {E6AC6523-79CF-4995-BBE9-A5C3D00E4C53}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FBB6656-AB92-433C-950B-0E08A7DBA3BF}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 
 namespace Core.Infrastructure.Email
@@ -12,6 +13,11 @@ namespace Core.Infrastructure.Email
         public EmailSender(IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
+        }
+
+        public Task SendEmailAsync(string email, string subject, string message)
+        {
+            return Task.CompletedTask;
         }
 
         public void SendEmail(string email, string subject, string content)

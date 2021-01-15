@@ -12,6 +12,10 @@ namespace Core.Configuration
     {
         #region Properties
 
+        public string AppName { get; set; }
+        public string Logo { get; set; }
+        public string Favicon { get; set; }
+
         public CacheConfig CacheConfig { get; set; } = new CacheConfig();
 
         public HostingConfig HostingConfig { get; set; } = new HostingConfig();
