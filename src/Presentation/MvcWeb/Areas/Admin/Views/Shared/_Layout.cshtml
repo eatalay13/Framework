@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" ng-app>
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - Flixada</title>
@@ -21,9 +21,9 @@
     <link href="~/css/admin.site.css" rel="stylesheet" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
-
     <script src="~/js/devextreme/jquery.js"></script>
     <script src="~/js/devextreme/bootstrap.js"></script>
+    <script src="~/lib/angular.min.js"></script>
 
     <script>
         var KTAppSettings = {
