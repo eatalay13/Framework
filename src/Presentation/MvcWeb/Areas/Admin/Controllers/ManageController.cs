@@ -61,6 +61,8 @@ namespace MvcWeb.Areas.Admin.Controllers
             var model = new IndexViewModel
             {
                 Username = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed
@@ -103,6 +105,11 @@ namespace MvcWeb.Areas.Admin.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+
+            await _userManager.UpdateAsync(user);
 
             _notificationService.SuccessNotification("Profiliniz başarıyla güncelleştirildi.");
             return RedirectToAction(nameof(Index));
