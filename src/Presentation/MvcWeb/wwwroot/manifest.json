@@ -1,0 +1,19 @@
+﻿{
+  "name": "Lib Framework",
+  "short_name": "LibFramework",
+  "description": "Emrah Atalay Tarafından Geliştirilmiştir.",
+  "theme_color": "#2196f3",
+  "background_color": "#2196f3",
+  "icons": [
+    {
+      "src": "/media/icon2-192x192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/media/icon2-512x512.png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/"
+}

@@ -49,15 +49,28 @@ namespace MvcWeb.Controllers
         public IActionResult Index()
         {
             var list = _navigateMenuService.GetAllAuthorizeController(Assembly.GetExecutingAssembly());
-;            return View(list);
+            ; return View(list);
+        }
+
+        [Route("SessionRequest")]
+        [HttpPost]
+        public IActionResult SessionRequest()
+        {
+            return Ok();
+        }
+
+        [Route("UpdateDb")]
+        public IActionResult UpdateDb()
+        {
+            if (_appDbContext.Database.GetMigrations().Any())
+                _appDbContext.Database.Migrate();
+
+            return RedirectToAction("Index", "Home", new { Area = AreaDefaults.AdminAreaName });
         }
 
         [Route("SeedData")]
         public async Task<IActionResult> SeedData()
         {
-            if (!_appDbContext.Database.GetAppliedMigrations().Any())
-                _appDbContext.Database.Migrate();
-
             _navigateMenuService.MenuSync(Assembly.GetExecutingAssembly());
 
             var newUser = new User
@@ -125,7 +138,7 @@ namespace MvcWeb.Controllers
 
             if (HttpContext.Request.IsAjaxRequest())
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, error);
+                return StatusCode(StatusCodes.Status200OK, error);
             }
 
             return View("Error", new ErrorViewModel

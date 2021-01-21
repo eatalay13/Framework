@@ -60,8 +60,23 @@ namespace MvcWeb.Areas.Identity.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
+            Microsoft.AspNetCore.Identity.SignInResult result;
 
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            if (model.Email.IsEmail())
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("Email", "Kayıtlı kullanıcı bulunamadı");
+                    return View(model);
+                }
+
+                result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
+            }
+            else
+                result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in.");

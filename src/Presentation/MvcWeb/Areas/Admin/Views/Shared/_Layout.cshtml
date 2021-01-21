@@ -5,11 +5,12 @@
     <title>@ViewData["Title"] - Flixada</title>
     <meta name="description" content="Kişiye özel Aksesuarlar" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#2196f3" />
+    <link rel="manifest" href="/manifest.json">
     <link rel="canonical" href="https://flixada.com/" />
     <link rel="shortcut icon" href="~/favicon.ico" />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link href="~/css/devextreme/bootstrap.css" rel="stylesheet" />
 
     <link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
     <link href="~/css/devextreme/dx.material.blue.light.css" rel="stylesheet" />
@@ -21,8 +22,6 @@
     <link href="~/css/admin.site.css" rel="stylesheet" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
-    <script src="~/js/devextreme/jquery.js"></script>
-    <script src="~/js/devextreme/bootstrap.js"></script>
     <script src="~/lib/angular.min.js"></script>
 
     <script>
@@ -117,6 +116,17 @@
         function setLocale() {
             sessionStorage.setItem("locale", "tr");
         }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/serviceworker.js');
+        }
+
+        $(document).ready(function () {
+            setInterval(function () {
+                ajax("/SessionRequest", "post");
+            }, 180000)
+        });
     </script>
 </body>
 </html>

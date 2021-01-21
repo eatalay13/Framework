@@ -12,4 +12,10 @@
 	  <ProjectReference Include="..\Services\Services.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Managers\ContinuationJobs\" />
+	  <Folder Include="Managers\DelayedJobs\" />
+	  <Folder Include="Managers\FireAndForgetJobs\" />
+	</ItemGroup>
+
 </Project>
