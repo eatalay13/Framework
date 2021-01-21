@@ -80,7 +80,10 @@ namespace MvcWeb.Areas.Identity.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in.");
-                return RedirectToLocal(model.ReturnUrl);
+                if (model.ReturnUrl.IsNullOrEmptyWhiteSpace())
+                    return RedirectToAction("Index", "Home", new { Area = AreaDefaults.AdminAreaName });
+                else
+                    return RedirectToLocal(model.ReturnUrl);
             }
             if (result.RequiresTwoFactor)
             {
