@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities.Models.Menu;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,11 @@ namespace Entities.Models.Auth
 {
     public class Role : IdentityRole<int>
     {
+        public Role()
+        {
+            RoleMenus = new HashSet<RoleMenu>();
+        }
+
+        public virtual ICollection<RoleMenu> RoleMenus { get; set; }
     }
 }

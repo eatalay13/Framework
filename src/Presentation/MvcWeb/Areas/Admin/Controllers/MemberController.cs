@@ -37,37 +37,9 @@ namespace MvcWeb.Areas.Admin.Controllers
 
         [ParentMenu(MenuNamesDefaults.Role)]
         [MenuItem(MenuNamesDefaults.Roles, 1)]
-        public async Task<IActionResult> Roles()
+        public IActionResult Roles()
         {
-            var roleViewModel = new RoleListViewModel
-            {
-                Roles = await _roleManager.Roles.ToListAsync()
-            };
-
-            return View(roleViewModel);
-        }
-
-        [ParentMenu(MenuNamesDefaults.Role)]
-        [MenuItem(MenuNamesDefaults.CreateRole, 2)]
-        public IActionResult CreateRole()
-        {
-            return View(new AddRoleViewModel());
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateRole(AddRoleViewModel viewModel)
-        {
-            if (!ModelState.IsValid) return View(viewModel);
-
-            var result = await _roleManager.CreateAsync(new Role() { Name = viewModel.Name });
-            if (result.Succeeded)
-            {
-                _notificationService.SuccessNotification("Role başarıyla eklendi.");
-                return RedirectToAction(nameof(Roles));
-            }
-            ModelState.AddModelError("", string.Join(",", result.Errors));
-
-            return View(viewModel);
+            return View();
         }
 
         [ParentMenu(MenuNamesDefaults.User)]

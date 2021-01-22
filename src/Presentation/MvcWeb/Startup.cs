@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcWeb.Framework.Configurations;
+using Newtonsoft.Json.Serialization;
 
 namespace MvcWeb
 {
@@ -23,18 +24,26 @@ namespace MvcWeb
             services.AddIdentityOptions();
 
             services.AddControllersWithViews()
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+               .AddNewtonsoftJson(options =>
+               {
+                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                   options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                   options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                   {
+                       NamingStrategy = null
+                   };
+               });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Error");
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
