@@ -13,6 +13,18 @@ namespace MvcWeb.Areas.Identity.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Kullanıcı Adınız")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Adınız")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Soyadınız")]
+        public string LastName { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

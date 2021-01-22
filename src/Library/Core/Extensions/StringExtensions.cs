@@ -31,5 +31,12 @@ namespace Core.Extensions
 
             return regex.IsMatch(str);
         }
+
+        public static string ToShortName(this string str)
+        {
+            var splits = str.Split(" ");
+
+            return string.Concat(splits[0][0], splits[1][0]);
+        }
     }
 }

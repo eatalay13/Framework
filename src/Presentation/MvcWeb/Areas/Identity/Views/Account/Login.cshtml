@@ -19,8 +19,8 @@
         @Html.HiddenFor(e => e.ReturnUrl)
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group mb-5">
-            <input class="form-control h-auto form-control-solid py-4 px-8" asp-for="Email" placeholder="Email" autocomplete="off" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <input class="form-control h-auto form-control-solid py-4 px-8" asp-for="EmailOrUserName" placeholder="Email" autocomplete="off" />
+            <span asp-validation-for="EmailOrUserName" class="text-danger"></span>
         </div>
         <div class="form-group mb-5">
             <input class="form-control h-auto form-control-solid py-4 px-8" asp-for="Password" placeholder="Password" />

@@ -62,9 +62,9 @@ namespace MvcWeb.Areas.Identity.Controllers
                 return View(model);
             Microsoft.AspNetCore.Identity.SignInResult result;
 
-            if (model.Email.IsEmail())
+            if (model.EmailOrUserName.IsEmail())
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.EmailOrUserName);
 
                 if (user == null)
                 {
@@ -75,7 +75,7 @@ namespace MvcWeb.Areas.Identity.Controllers
                 result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
             }
             else
-                result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                result = await _signInManager.PasswordSignInAsync(model.EmailOrUserName, model.Password, model.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -226,7 +226,13 @@ namespace MvcWeb.Areas.Identity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User
+                {
+                    UserName = model.UserName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -238,7 +244,11 @@ namespace MvcWeb.Areas.Identity.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+
+                    if (returnUrl.IsNullOrEmptyWhiteSpace())
+                        return RedirectToAction("Index", "Home", new { Area = AreaDefaults.AdminAreaName });
+                    else
+                        return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
             }

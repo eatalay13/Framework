@@ -70,7 +70,7 @@
     <script src="~/js/devextreme/localization/dx.messages.tr.js"></script>
 
 </head>
-<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+<body id="kt_body" class="header-fixed header-mobile-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
     @await Component.InvokeAsync("MobileHeader")
     <div class="d-flex flex-column flex-root">
         <div class="d-flex flex-row flex-column-fluid page">
@@ -78,7 +78,7 @@
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                 @await Component.InvokeAsync("Header")
                 <div class="content d-flex flex-column flex-column-fluid animate__animated animate__fadeIn" id="kt_content">
-                    @await Component.InvokeAsync("SubHeader")
+                    @*@await Component.InvokeAsync("SubHeader")*@
                     <partial name="_Notifications" />
                     <div class="d-flex flex-column-fluid">
                         <div class="container-fluid">
@@ -105,6 +105,8 @@
             </svg>
         </span>
     </div>
+
+    <partial name="_StickyPanel" />
 
     <partial name="_ValidationScriptsPartial" />
     @await RenderSectionAsync("Scripts", required: false)

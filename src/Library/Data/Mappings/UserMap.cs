@@ -14,6 +14,9 @@ namespace Data.Mappings
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
+
+            builder.Property(p => p.ProfilFoto)
+                .HasDefaultValue("/media/users/default.jpg");
         }
     }
 }

@@ -9,8 +9,7 @@ namespace MvcWeb.Areas.Identity.Models
     public class LoginViewModel
     {
         [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string EmailOrUserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
