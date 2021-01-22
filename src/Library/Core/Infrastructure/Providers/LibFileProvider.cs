@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 
 namespace Core.Infrastructure.Providers
 {
-    public class LibFileProvider : PhysicalFileProvider
+    public class LibFileProvider : PhysicalFileProvider, ILibFileProvider
     {
         /// <summary>
         /// Initializes a new instance of a NopFileProvider
@@ -580,6 +581,36 @@ namespace Core.Infrastructure.Providers
             subpath = subpath.Replace(Root, string.Empty);
 
             return base.GetFileInfo(subpath);
+        }
+
+        /// <summary>
+        /// Sunucuya dosya yükleme işlemini gerçekleştirir.
+        /// </summary>
+        /// <param name="path">wwwroot altında kaydedilecek dosya yolu</param>
+        /// <param name="formFile">Upload edilecek form dosyası</param>
+        /// <returns></returns>
+        public async Task<string> UploadFileAsync(string path, IFormFile formFile)
+        {
+            var fileName = string.Concat(Guid.NewGuid().ToString(), Path.GetExtension(formFile.FileName));
+
+            var savePath = string.Empty;
+
+            if (!path.StartsWith("/"))
+                savePath = Path.Combine(WebRootPath, path);
+
+            if (!DirectoryExists(savePath))
+                CreateDirectory(savePath);
+
+            var fullName = Path.Combine(savePath, fileName);
+
+            fullName = fullName.Replace(@"\", "/");
+
+            using (var stream = File.Create(fullName))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+
+            return fullName.Split("wwwroot")[1];
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Core.Helpers;
 using Core.Infrastructure.Email;
 using Core.Infrastructure.NotificationService;
+using Core.Infrastructure.Providers;
 using Core.Infrastructure.ViewToString;
 using Data.Contexts;
 using Data.Repositories;
@@ -33,6 +34,7 @@ namespace MvcWeb.Framework.Configurations
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<ILicenseService, LicenseService>();
             services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
+            services.AddScoped<ILibFileProvider, LibFileProvider>();
 
             services.AddScoped<DbContext, AppDbContext>();
             services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));

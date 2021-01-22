@@ -1,48 +1,112 @@
 ﻿@model IndexViewModel
-@{ ViewData["Title"] = "Profilim"; }
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "_ManageLayout";
+}
 
-<h4>@ViewData["Title"]</h4>
-
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
+<form role="form" method="post" enctype="multipart/form-data">
+    <div class="card card-custom card-stretch">
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">Kullanıcı Bilgileri</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">Kişisel bilgilerini güncelle</span>
             </div>
-            <div class="form-group">
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" />
+            <div class="card-toolbar">
+                <button type="submit" class="btn btn-success mr-2">Kaydet</button>
+                <button type="reset" class="btn btn-secondary">İptal</button>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" />
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label class="col-xl-3"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <h5 class="font-weight-bold mb-6">Profil Bilgileri</h5>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                @if (Model.IsEmailConfirmed)
-                {
-                    <div class="input-group">
-                        <input asp-for="Email" class="form-control" />
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                    </div> }
-                else
-                {
-                    <input asp-for="Email" class="form-control" />
-                    <button asp-action="SendVerificationEmail" class="btn btn-link">Doğrulama Kodu Gönder</button>}
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="ProfilePhoto"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url(/media/users/default.jpg)">
+                        <input asp-for="ProfilePhoto" hidden />
+                        <div class="image-input-wrapper" style="background-image: url('@Model.ProfilePhoto')"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Fotoğrafı değiştir">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" asp-for="ProfilePhotoFile" accept=".png, .jpg, .jpeg">
+                            <input type="hidden" name="profile_avatar_remove">
+                        </label>
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Geri al">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="" data-original-title="Fotoğrafı sil">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                    </div>
+                    <span class="form-text text-muted">Geçerli dosya tipleri: png, jpg, jpeg.</span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="FirstName"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <input asp-for="FirstName" class="form-control form-control-lg form-control-solid">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
             </div>
-            <button type="submit" class="btn btn-success">Kaydet</button>
-        </form>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="LastName"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <input asp-for="LastName" class="form-control form-control-lg form-control-solid">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="Username"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <input asp-for="Username" class="form-control form-control-lg form-control-solid">
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xl-3"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <h5 class="font-weight-bold mt-10 mb-6">İletişim Bilgileri</h5>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="PhoneNumber"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <div class="input-group input-group-lg input-group-solid">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="la la-phone"></i>
+                            </span>
+                        </div>
+                        <input asp-for="PhoneNumber" class="form-control form-control-lg form-control-solid" placeholder="Telefon">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <span class="form-text text-muted">E-postanızı asla başkalarıyla paylaşmayacağız.</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="Email"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <div class="input-group input-group-lg input-group-solid">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="la la-at"></i>
+                            </span>
+                        </div>
+                        <input asp-for="Email" class="form-control form-control-lg form-control-solid" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</form>
+
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="~/js/pages/custom/profile/profilef552.js"></script>
 }

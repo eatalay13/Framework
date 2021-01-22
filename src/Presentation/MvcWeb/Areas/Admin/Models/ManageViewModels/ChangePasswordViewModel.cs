@@ -24,6 +24,5 @@ namespace MvcWeb.Areas.Admin.Models.ManageViewModels
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public string StatusMessage { get; set; }
     }
 }

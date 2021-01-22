@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace Core.Infrastructure.Providers
         /// <param name="paths">An array of parts of the path</param>
         /// <returns>The combined paths</returns>
         string Combine(params string[] paths);
+
+        /// <summary>
+        /// Combines an array of strings into a path
+        /// </summary>
+        /// <param name="paths">An array of parts of the path</param>
+        /// <returns>The combined paths</returns>
+        Task<string> UploadFileAsync(string path, IFormFile formFile);
 
         /// <summary>
         /// Creates all directories and subdirectories in the specified path unless they already exist

@@ -3,6 +3,7 @@ using Core.Extensions;
 using Core.Helpers;
 using Core.Infrastructure.Email;
 using Core.Infrastructure.NotificationService;
+using Core.Infrastructure.Providers;
 using Entities.Models.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly INotificationService _notificationService;
+        private readonly ILibFileProvider _libFileProvider;
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
@@ -38,7 +40,8 @@ namespace MvcWeb.Areas.Admin.Controllers
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
-          INotificationService notificationService)
+          INotificationService notificationService,
+          ILibFileProvider libFileProvider)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +49,7 @@ namespace MvcWeb.Areas.Admin.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _notificationService = notificationService;
+            _libFileProvider = libFileProvider;
         }
 
         [HttpGet]
@@ -65,6 +69,7 @@ namespace MvcWeb.Areas.Admin.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                ProfilePhoto = user.ProfilFoto,
                 IsEmailConfirmed = user.EmailConfirmed
             };
 
@@ -79,6 +84,10 @@ namespace MvcWeb.Areas.Admin.Controllers
             {
                 return View(model);
             }
+
+            Task<string> uploadFileName = null;
+            if (model.ProfilePhotoFile != null)
+                uploadFileName = _libFileProvider.UploadFileAsync("media/users", model.ProfilePhotoFile);
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -108,6 +117,9 @@ namespace MvcWeb.Areas.Admin.Controllers
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+
+            if (uploadFileName != null)
+                user.ProfilFoto = await uploadFileName;
 
             await _userManager.UpdateAsync(user);
 
