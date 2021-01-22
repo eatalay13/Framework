@@ -1,23 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Disable two-factor authentication (2FA)";
+    ViewData["Title"] = "2 Factörlü Girişi Kapat";
+    Layout = "_ManageLayout";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="card card-custom card-stretch">
+    <div class="card-header py-3">
+        <div class="card-title align-items-start flex-column">
+            <h3 class="card-label font-weight-bolder text-dark">2 Faktörlü Girişi Devre Dışı Bırak</h3>
+            <span class="text-muted font-weight-bold font-size-sm mt-1">Güvenliğiniz için 2 faktörlü girişi aktifleiştirin.</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <h2>@ViewData["Title"]</h2>
 
-<div class="alert alert-warning" role="alert">
-    <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>This action only disables 2FA.</strong>
-    </p>
-    <p>
-        Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-action="ResetAuthenticatorWarning">reset your
-        authenticator keys.</a>
-    </p>
-</div>
+        <div class="alert alert-warning" role="alert">
+            <p>
+                <span class="glyphicon glyphicon-warning-sign"></span>
+                <strong>This action only disables 2FA.</strong>
+            </p>
+            <p>
+                Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
+                used in an authenticator app you should <a asp-action="ResetAuthenticatorWarning">
+                    reset your
+                    authenticator keys.
+                </a>
+            </p>
+        </div>
 
-<div>
-    <form asp-action="Disable2fa" method="post" class="form-group">
-        <button class="btn btn-danger" type="submit">Disable 2FA</button>
-    </form>
+        <div>
+            <form asp-action="Disable2fa" method="post" class="form-group">
+                <button class="btn btn-danger" type="submit">Disable 2FA</button>
+            </form>
+        </div>
+    </div>
 </div>

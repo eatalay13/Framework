@@ -81,7 +81,7 @@
                     @*@await Component.InvokeAsync("SubHeader")*@
                     <partial name="_Notifications" />
                     <div class="d-flex flex-column-fluid">
-                        <div class="container-fluid">
+                        <div class="container">
                             @RenderBody()
                         </div>
                     </div>
@@ -109,6 +109,8 @@
     <partial name="_StickyPanel" />
 
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/ui.js" asp-append-version="true"></script>
+    <script src="~/js/admin-site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         setLocale();

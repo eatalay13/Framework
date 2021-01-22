@@ -34,6 +34,12 @@ namespace Core.Extensions
 
         public static string ToShortName(this string str)
         {
+            if (str.IsNullOrEmptyWhiteSpace())
+                return "AA";
+
+            if (!str.Contains(" "))
+                return str[0].ToString();
+
             var splits = str.Split(" ");
 
             return string.Concat(splits[0][0], splits[1][0]);

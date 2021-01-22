@@ -117,6 +117,7 @@ namespace MvcWeb.Areas.Admin.Controllers
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+            user.UserName = model.Username;
 
             if (uploadFileName != null)
                 user.ProfilFoto = await uploadFileName;
