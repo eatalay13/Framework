@@ -34,5 +34,22 @@ namespace MvcWeb.Framework.Extensions
 
             return dataGridBuilder;
         }
+
+        public static DataGridBuilder<T> GridLeftButtons<T>(this DataGridBuilder<T> dataGridBuilder)
+        {
+            dataGridBuilder.Columns(columns =>
+            {
+                columns.Add()
+                    .Type(GridCommandColumnType.Buttons)
+                    .Width(110)
+                    .Buttons(b =>
+                    {
+                        b.Add().Name(GridColumnButtonName.Edit);
+                        b.Add().Name(GridColumnButtonName.Delete);
+                    });
+            });
+
+            return dataGridBuilder;
+        }
     }
 }

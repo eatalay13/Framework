@@ -21,6 +21,9 @@ namespace Entities.Dtos
 
         public string LastName { get; set; }
 
-        public string ProfileFoto { get; set; }
+        public string ProfilFoto { get; set; }
+
+
+        public IList<string> Roles { get; set; }
     }
 }

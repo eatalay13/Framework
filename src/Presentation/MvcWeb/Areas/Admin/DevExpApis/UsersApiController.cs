@@ -3,15 +3,11 @@ using Core.Exceptions;
 using Core.Helpers;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
-using Entities.Dtos;
 using Entities.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MvcWeb.Framework.Extensions;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MvcWeb.Controllers
