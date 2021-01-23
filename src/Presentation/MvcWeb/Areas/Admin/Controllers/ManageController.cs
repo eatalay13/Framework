@@ -105,6 +105,15 @@ namespace MvcWeb.Areas.Admin.Controllers
                 }
             }
 
+            if (model.Username != user.UserName)
+            {
+                var setuserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
+                if (!setuserNameResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                }
+            }
+
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)
             {
@@ -117,7 +126,6 @@ namespace MvcWeb.Areas.Admin.Controllers
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.UserName = model.Username;
 
             if (uploadFileName != null)
                 user.ProfilFoto = await uploadFileName;

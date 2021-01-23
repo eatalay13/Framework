@@ -35,14 +35,12 @@ namespace MvcWeb.Areas.Admin.Controllers
             _notificationService = notificationService;
         }
 
-        [ParentMenu(MenuNamesDefaults.Role)]
         [MenuItem(MenuNamesDefaults.Roles, 1)]
         public IActionResult Roles()
         {
             return View();
         }
 
-        [ParentMenu(MenuNamesDefaults.User)]
         [MenuItem(MenuNamesDefaults.Users, 3)]
         public async Task<IActionResult> Users()
         {
@@ -100,33 +98,6 @@ namespace MvcWeb.Areas.Admin.Controllers
             _notificationService.SuccessNotification("Müşteri başarıyla güncelleştirildi.");
 
             return View(viewModel);
-        }
-
-        [ParentMenu(MenuNamesDefaults.Role)]
-        [MenuItem(MenuNamesDefaults.EditRole, 3, false)]
-        public async Task<IActionResult> EditRolePermission(int id)
-        {
-            if (id <= 0) return RedirectToAction(nameof(Roles));
-
-            var model = new NavigationMenuViewModel
-            {
-                Id = id,
-                Permissions = await _permissionService.GetPermissionsByRoleIdAsync(id)
-            };
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditRolePermission(NavigationMenuViewModel viewModel)
-        {
-            if (!ModelState.IsValid) return View(viewModel);
-
-            var permissionIds = viewModel.Permissions.Where(x => x.Permitted).Select(x => x.Id);
-
-            await _permissionService.SetPermissionsByRoleIdAsync(viewModel.Id, permissionIds);
-
-            return RedirectToAction(nameof(Roles));
         }
     }
 }

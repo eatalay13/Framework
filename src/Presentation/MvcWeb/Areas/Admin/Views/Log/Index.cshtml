@@ -28,7 +28,7 @@
 
                          columns.AddFor(m => m.Level);
 
-                         columns.AddFor(m => m.Timestamp);
+                         columns.AddFor(m => m.Timestamp).SortOrder(SortOrder.Desc);
 
                          columns.AddFor(m => m.Exception).Width(350);
 

@@ -25,11 +25,9 @@
                         .RemoteOperations(true)
                         .Columns(columns => {
 
-                            columns.AddFor(m => m.Id).AllowEditing(false).Visible(false);
-
                             columns.AddFor(m => m.Name).Caption("Rol Adı");
 
-                            columns.AddFor(m => m.RoleMenuIds).Caption("Yetkili Sayfalar").Width(450)
+                            columns.AddFor(m => m.RoleMenuIds).Caption("Yetkili Sayfalar").Width(750)
                             .Lookup(lookup => lookup
                                 .DataSource(d => d.Mvc().Controller("NavigationMenuApi").LoadAction("Get").Key("Id"))
                                 .ValueExpr("Id")
@@ -39,7 +37,7 @@
                             .EditCellTemplate(new TemplateName("RoleMenusTemplate"));
 
                         })
-                        .Editing(e => e
+                        .Editing(e => e.Mode(GridEditMode.Popup)
                             .AllowAdding(true)
                             .AllowUpdating(true)
                             .AllowDeleting(true)

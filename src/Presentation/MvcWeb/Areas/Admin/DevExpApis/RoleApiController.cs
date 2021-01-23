@@ -1,10 +1,12 @@
-﻿using DevExtreme.AspNet.Data;
+﻿using Core.CustomAttributes;
+using Core.Helpers;
+using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Entities.Dtos;
 using Entities.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MvcWeb.Framework.Extensions;
 using Newtonsoft.Json;
 using Services.Authentication;
@@ -13,7 +15,9 @@ using System.Threading.Tasks;
 
 namespace MvcWeb.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Area(AreaDefaults.AdminAreaName)]
+    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class RoleApiController : Controller
     {
         private readonly RoleManager<Role> _roleManager;
@@ -71,8 +75,10 @@ namespace MvcWeb.Controllers
             var model = new RoleDevApiDto();
             JsonConvert.PopulateObject(values, model);
 
-            if (!TryValidateModel(role))
+            if (!TryValidateModel(model))
                 return BadRequest(ModelState.GetFullErrorMessage());
+
+            role.Name = model.Name;
 
             await _roleManager.UpdateAsync(role);
 

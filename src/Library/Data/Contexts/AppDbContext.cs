@@ -18,6 +18,8 @@ namespace Data.Contexts
         {
 
         }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
 
         public virtual DbSet<NavigationMenu> NavigationMenu { get; set; }
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
