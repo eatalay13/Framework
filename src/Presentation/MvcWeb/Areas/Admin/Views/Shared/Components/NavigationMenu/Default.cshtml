@@ -28,7 +28,7 @@
                         </a>
                         <div class="menu-submenu menu-submenu-classic menu-submenu-right">
                             <ul class="menu-subnav">
-                                @await CategoryRecursive(menu.Children)
+                                @await Task.Run(() => CategoryRecursive(menu.Children))
                             </ul>
                         </div>
                     </li>
