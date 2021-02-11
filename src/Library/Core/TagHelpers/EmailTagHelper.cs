@@ -3,7 +3,7 @@
 namespace Core.TagHelpers
 {
     [HtmlTargetElement("email")]
-    public class EmailTagHelper : TagHelper
+    public class EmailTagHelper : BaseTagHelper
     {
         public string MailTo { get; set; }
 

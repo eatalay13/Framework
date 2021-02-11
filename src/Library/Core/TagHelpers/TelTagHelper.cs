@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Core.TagHelpers
 {
     [HtmlTargetElement("tel")]
-    public class TelTagHelper : TagHelper
+    public class TelTagHelper : BaseTagHelper
     {
         public string Number { get; set; }
+        public bool NumberShowContent { get; set; } = true;
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -18,7 +19,9 @@ namespace Core.TagHelpers
             output.Attributes.SetAttribute("href", "tel:" + Number);
             output.Attributes.SetAttribute("target", "_blank");
             output.PreContent.AppendHtml("&nbsp;<i class='fas fa-phone-alt'></i>&nbsp;");
-            output.Content.SetContent(Number);
+
+            if (NumberShowContent)
+                output.Content.SetContent(Number);
         }
     }
 }

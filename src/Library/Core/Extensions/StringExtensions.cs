@@ -19,6 +19,11 @@ namespace Core.Extensions
             return new Guid(str);
         }
 
+        public static int ToIntOrDefault(this string str)
+        {
+            return int.TryParse(str, out int number) ? number : default;
+        }
+
         public static int ToInt(this string str)
         {
             return int.Parse(str);
@@ -27,6 +32,14 @@ namespace Core.Extensions
         public static bool IsEmail(this string str)
         {
             Regex regex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+                RegexOptions.CultureInvariant | RegexOptions.Singleline);
+
+            return regex.IsMatch(str);
+        }
+
+        public static bool IsValidPhoneNumber(this string str)
+        {
+            Regex regex = new Regex(@"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$",
                 RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
             return regex.IsMatch(str);

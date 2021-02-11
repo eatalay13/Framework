@@ -43,7 +43,7 @@ namespace Services.License
         {
             try
             {
-                var systemDomain = _httpContextAccessor.HttpContext.Request.Host.Value;
+                var systemDomain = _httpContextAccessor.HttpContext?.Request.Host.Value;
                 var license = GetLicense();
                 var encryptData = _encryptionService.Decrypt(license.Key);
 
