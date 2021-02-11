@@ -196,14 +196,10 @@ namespace Services.NavigateMenu
             if (menuItemAttr != null)
                 return menuItemAttr.IsVisible;
 
-            else if (menuItemAttr == null && actionParentMenuAttr != null)
+            if (actionParentMenuAttr != null)
                 return actionParentMenuAttr.IsVisible;
 
-            else if (menuItemAttr == null && actionParentMenuAttr == null && ctrlParentMenuAttr != null)
-                return ctrlParentMenuAttr.IsVisible;
-
-            else
-                return false;
+            return ctrlParentMenuAttr != null && ctrlParentMenuAttr.IsVisible;
         }
 
         public void DeleteNavigationMenu(int id)

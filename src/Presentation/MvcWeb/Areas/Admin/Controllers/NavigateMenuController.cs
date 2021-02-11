@@ -2,8 +2,8 @@
 using Core.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.NavigateMenu;
 using System.Reflection;
+using Services.NavigateMenu;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {

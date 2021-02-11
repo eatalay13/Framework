@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Core.Exceptions;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
@@ -107,8 +108,8 @@ namespace MvcWeb.Areas.Admin.Controllers
 
             if (model.Username != user.UserName)
             {
-                var setuserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
-                if (!setuserNameResult.Succeeded)
+                var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
+                if (!setUserNameResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                 }
@@ -141,15 +142,11 @@ namespace MvcWeb.Areas.Admin.Controllers
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
         {
             if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+                return RedirectToAction(nameof(Index));
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+                throw new BusinessException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
@@ -361,7 +358,7 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Disable2faWarning()
+        public async Task<IActionResult> Disable2FaWarning()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -374,12 +371,12 @@ namespace MvcWeb.Areas.Admin.Controllers
                 throw new ApplicationException($"Unexpected error occurred disabling 2FA for user with ID '{user.Id}'.");
             }
 
-            return View(nameof(Disable2fa));
+            return View(nameof(Disable2Fa));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Disable2fa()
+        public async Task<IActionResult> Disable2Fa()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -387,8 +384,8 @@ namespace MvcWeb.Areas.Admin.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
-            if (!disable2faResult.Succeeded)
+            var disable2FaResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
+            if (!disable2FaResult.Succeeded)
             {
                 throw new ApplicationException($"Unexpected error occurred disabling 2FA for user with ID '{user.Id}'.");
             }
@@ -431,10 +428,10 @@ namespace MvcWeb.Areas.Admin.Controllers
             // Strip spaces and hypens
             var verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-            var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
+            var is2FaTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
                 user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
-            if (!is2faTokenValid)
+            if (!is2FaTokenValid)
             {
                 ModelState.AddModelError("Code", "Verification code is invalid.");
                 await LoadSharedKeyAndQrCodeUriAsync(user, model);
