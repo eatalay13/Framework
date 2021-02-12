@@ -31,9 +31,6 @@ namespace Core.Configuration
 
         public CommonConfig CommonConfig { get; set; } = new CommonConfig();
 
-        [JsonExtensionData]
-        public IDictionary<string, JToken> AdditionalData { get; set; }
-
         #endregion
     }
 }

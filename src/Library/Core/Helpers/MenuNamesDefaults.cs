@@ -15,6 +15,8 @@ namespace Core.Helpers
         public const string NavigateMenus = "Menüler";
         public const string NavigateMenusSync = "Menüleri Senkronize Et";
 
+        public const string AppSetting = "Uygulama Ayarları";
+
         public const string LogIndex = "Sistem Logları";
         public const string Roles = "Roller";
         public const string CreateRole = "Rol Ekle";
