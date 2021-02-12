@@ -2,6 +2,7 @@
 using Entities.Models.Menu;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 
 namespace Data.UnitOfWork
 {
@@ -34,17 +35,19 @@ namespace Data.UnitOfWork
 
         #region Methods
 
-        public void SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            using var transaction = _context.Database.BeginTransaction();
+            await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                _context.SaveChanges();
-                transaction.Commit();
+                var count = await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return count;
             }
             catch
             {
-                transaction.Rollback();
+                await transaction.RollbackAsync();
                 throw;
             }
         }

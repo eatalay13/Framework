@@ -88,14 +88,14 @@ namespace Services.Authentication
 
             foreach (var item in permissionIds)
             {
-                _uow.RoleMenuRepo.Insert(new RoleMenu
+                await _uow.RoleMenuRepo.InsertAsync(new RoleMenu
                 {
                     RoleId = id,
                     NavigationMenuId = item,
                 });
             }
 
-            _uow.SaveChanges();
+            await _uow.SaveChangesAsync();
 
             return true;
         }

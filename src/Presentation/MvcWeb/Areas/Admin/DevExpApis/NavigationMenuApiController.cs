@@ -43,15 +43,15 @@ namespace MvcWeb.Areas.Admin.DevExpApis
             if (model.ParentMenuId == 0)
                 model.ParentMenuId = null;
 
-            _navigateMenuService.AddNavigationMenu(model);
+            _navigateMenuService.AddNavigationMenuAsync(model);
 
-            return Json(new {model.Id});
+            return Json(new { model.Id });
         }
 
         [HttpPut]
-        public IActionResult Put(int key, string values)
+        public async Task<IActionResult> Put(int key, string values)
         {
-            var model = _navigateMenuService.GetMenuById(key);
+            var model = await _navigateMenuService.GetMenuByIdAsync(key);
 
             if (model == null)
                 return StatusCode(409, "Object not found");
@@ -64,15 +64,15 @@ namespace MvcWeb.Areas.Admin.DevExpApis
             if (model.ParentMenuId == 0)
                 model.ParentMenuId = null;
 
-            _navigateMenuService.UpdateNavigationMenu(model);
+            await _navigateMenuService.UpdateNavigationMenuAsync(model);
 
             return Ok();
         }
 
         [HttpDelete]
-        public void Delete(int key)
+        public async Task Delete(int key)
         {
-            _navigateMenuService.DeleteNavigationMenu(key);
+            await _navigateMenuService.DeleteNavigationMenuAsync(key);
         }
     }
 }

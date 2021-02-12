@@ -12,13 +12,13 @@ namespace Services.NavigateMenu
     public interface INavigateMenuService
     {
         Task<LoadResult> BindDevExp(DataSourceLoadOptions loadOptions);
-        IList<NavigationMenu> GetMenuList();
-        IPagedList<NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10);
-        NavigationMenu GetMenuById(int id);
-        void AddNavigationMenu(NavigationMenu menu);
-        void UpdateNavigationMenu(NavigationMenu menu);
-        void DeleteNavigationMenu(int id);
-        void MenuSync(Assembly assembly);
+        Task<IList<NavigationMenu>> GetMenuListAsync();
+        Task<IPagedList<NavigationMenu>> GetMenuPagedListAsync(int pageIndex, int pageSize = 10);
+        Task<NavigationMenu> GetMenuByIdAsync(int id);
+        Task AddNavigationMenuAsync(NavigationMenu menu);
+        Task UpdateNavigationMenuAsync(NavigationMenu menu);
+        Task DeleteNavigationMenuAsync(int id);
+        Task MenuSyncAsync(Assembly assembly);
         List<AuthNavigationMenuDto> GetAllAuthorizeController(Assembly assembly);
     }
 }

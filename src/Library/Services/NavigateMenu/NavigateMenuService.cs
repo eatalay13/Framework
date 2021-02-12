@@ -34,45 +34,45 @@ namespace Services.NavigateMenu
             return await DataSourceLoader.LoadAsync(data, loadOptions);
         }
 
-        public IList<NavigationMenu> GetMenuList()
+        public async Task<IList<NavigationMenu>> GetMenuListAsync()
         {
-            return _uow.NavigationMenuRepo.GetAll();
+            return await _uow.NavigationMenuRepo.GetAllAsync();
         }
 
-        public IPagedList<NavigationMenu> GetMenuList(int pageIndex, int pageSize = 10)
+        public async Task<IPagedList<NavigationMenu>> GetMenuPagedListAsync(int pageIndex, int pageSize = 10)
         {
-            return _uow.NavigationMenuRepo.GetAllPaged(null, pageIndex, pageSize);
+            return await _uow.NavigationMenuRepo.GetAllPagedAsync(func: null, pageIndex: pageIndex, pageSize: pageSize);
         }
 
-        public NavigationMenu GetMenuById(int id)
+        public async Task<NavigationMenu> GetMenuByIdAsync(int id)
         {
-            return _uow.NavigationMenuRepo.GetById(id);
+            return await _uow.NavigationMenuRepo.GetByIdAsync(id);
         }
 
-        public void AddNavigationMenu(NavigationMenu menu)
+        public async Task AddNavigationMenuAsync(NavigationMenu menu)
         {
             ValidationTool.Validate(typeof(NavigateMenuValidator), menu);
 
-            _uow.NavigationMenuRepo.Insert(menu);
+            await _uow.NavigationMenuRepo.InsertAsync(menu);
 
-            _uow.SaveChanges();
+            await _uow.SaveChangesAsync();
         }
 
-        public void UpdateNavigationMenu(NavigationMenu menu)
+        public async Task UpdateNavigationMenuAsync(NavigationMenu menu)
         {
             if (menu is null)
                 return;
 
             _uow.NavigationMenuRepo.Update(menu);
 
-            _uow.SaveChanges();
+            await _uow.SaveChangesAsync();
         }
 
-        public void MenuSync(Assembly assembly)
+        public async Task MenuSyncAsync(Assembly assembly)
         {
             var allAuthController = GetAllAuthorizeController(assembly);
 
-            var registerControllers = _uow.NavigationMenuRepo.GetAll();
+            var registerControllers = await _uow.NavigationMenuRepo.GetAllAsync();
 
             foreach (var menu in registerControllers)
             {
@@ -99,8 +99,8 @@ namespace Services.NavigateMenu
                             Visible = menu.Visible
                         };
 
-                        _uow.NavigationMenuRepo.Insert(parentMenu);
-                        _uow.SaveChanges();
+                        await _uow.NavigationMenuRepo.InsertAsync(parentMenu);
+                        await _uow.SaveChangesAsync();
                     }
                 }
 
@@ -121,9 +121,9 @@ namespace Services.NavigateMenu
                     Visible = menu.Visible
                 };
 
-                _uow.NavigationMenuRepo.Insert(newMenu);
+                await _uow.NavigationMenuRepo.InsertAsync(newMenu);
 
-                _uow.SaveChanges();
+                await _uow.SaveChangesAsync();
             }
         }
 
@@ -202,13 +202,13 @@ namespace Services.NavigateMenu
             return ctrlParentMenuAttr != null && ctrlParentMenuAttr.IsVisible;
         }
 
-        public void DeleteNavigationMenu(int id)
+        public async Task DeleteNavigationMenuAsync(int id)
         {
-            var menu = GetMenuById(id);
+            var menu = await GetMenuByIdAsync(id);
 
             _uow.NavigationMenuRepo.Delete(menu);
 
-            _uow.SaveChanges();
+            await _uow.SaveChangesAsync();
         }
     }
 }

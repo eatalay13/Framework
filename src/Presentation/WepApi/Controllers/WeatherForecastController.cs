@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Services.NavigateMenu;
 
 namespace WepApi.Controllers
@@ -20,9 +21,9 @@ namespace WepApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<NavigationMenu> Get()
+        public async Task<IEnumerable<NavigationMenu>> Get()
         {
-            var data = _navigateMenuService.GetMenuList();
+            var data = await _navigateMenuService.GetMenuListAsync();
             return data;
         }
     }

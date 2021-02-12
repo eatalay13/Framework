@@ -12,6 +12,6 @@ namespace Data.UnitOfWork
     {
         IRepository<NavigationMenu> NavigationMenuRepo { get; }
         IRepository<RoleMenu> RoleMenuRepo { get; }
-        void SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

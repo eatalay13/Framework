@@ -1,14 +1,16 @@
-﻿using Entities.Models;
-using Core.Extensions;
+﻿using Core.Extensions;
 using Core.Infrastructure.PagedList;
+using Entities.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Transactions;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Data.Repositories
 {
@@ -27,7 +29,7 @@ namespace Data.Repositories
         {
             get
             {
-                if (_httpContextAccessor.HttpContext.User is null) return 0;
+                if (_httpContextAccessor.HttpContext?.User is null) return 0;
 
                 var userId = _httpContextAccessor.HttpContext.User.Claims
                     .FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -50,48 +52,63 @@ namespace Data.Repositories
 
         #region Methods
 
-        public virtual TEntity GetById(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            return id <= 0 ? null : _entities.Find(id);
+            if (id == 0)
+                return null;
+
+            return await Table.FirstOrDefaultAsync(entity => entity.Id == Convert.ToInt32(id));
         }
 
-        public virtual IList<TEntity> GetByIds(IList<int> ids)
+
+        public virtual async Task<IList<TEntity>> GetByIdsAsync(IList<int> ids)
         {
             if (!ids?.Any() ?? true)
                 return new List<TEntity>();
 
-            var query = Table;
-            if (typeof(TEntity).GetInterface(nameof(ISoftDeletedEntity)) != null)
-                query = _entities.AsQueryable().OfType<ISoftDeletedEntity>().Where(entry => !entry.Deleted).OfType<TEntity>();
-
-            var entries = query.Where(entry => ids.Contains(entry.Id)).ToList();
-
-            var sortedEntries = new List<TEntity>();
-            foreach (var id in ids)
+            async Task<IList<TEntity>> getByIdsAsync()
             {
-                var sortedEntry = entries.FirstOrDefault(entry => entry.Id == id);
-                if (sortedEntry != null)
-                    sortedEntries.Add(sortedEntry);
+                var query = Table;
+                if (typeof(TEntity).GetInterface(nameof(ISoftDeletedEntity)) != null)
+                    query = Table.OfType<ISoftDeletedEntity>().Where(entry => !entry.Deleted).OfType<TEntity>();
+
+                //get entries
+                var entries = await query.Where(entry => ids.Contains(entry.Id)).ToListAsync();
+
+                //sort by passed identifiers
+                var sortedEntries = new List<TEntity>();
+                foreach (var id in ids)
+                {
+                    var sortedEntry = entries.FirstOrDefault(entry => entry.Id == id);
+                    if (sortedEntry != null)
+                        sortedEntries.Add(sortedEntry);
+                }
+
+                return sortedEntries;
             }
 
-            return sortedEntries;
+            return await getByIdsAsync();
         }
 
-        public virtual IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
+
+        public virtual async Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
         {
             var query = func != null ? func(Table) : Table;
-            return query.ToList();
+            return await query.ToListAsync();
         }
 
-        public virtual IPagedList<TEntity> GetAllPaged(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
-            int pageIndex = 1, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+
+        public virtual async Task<IPagedList<TEntity>> GetAllPagedAsync(
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
+            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = func != null ? func(Table) : Table;
 
-            return new PagedList<TEntity>(query, pageIndex, pageSize, getOnlyTotalCount);
+            return await query.ToPagedListAsync(pageIndex, pageSize, getOnlyTotalCount);
         }
 
-        public virtual void Insert(TEntity entity)
+
+        public virtual async Task InsertAsync(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -99,10 +116,10 @@ namespace Data.Repositories
             entity.CreatedBy = UserId;
             entity.ModifiedBy = UserId;
 
-            _entities.Add(entity);
+            await _entities.AddAsync(entity);
         }
 
-        public virtual void Insert(IList<TEntity> entities)
+        public virtual async Task InsertAsync(IList<TEntity> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
@@ -113,9 +130,15 @@ namespace Data.Repositories
                 entity.ModifiedBy = UserId;
             }
 
-            using var transaction = new TransactionScope();
-            _entities.AddRange(entities);
+            using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            await _entities.AddRangeAsync(entities);
             transaction.Complete();
+        }
+
+        public virtual async Task<TEntity> LoadOriginalCopyAsync(TEntity entity)
+        {
+            return await Table
+                .FirstOrDefaultAsync(e => e.Id == Convert.ToInt32(entity.Id));
         }
 
         public virtual void Update(TEntity entity)
@@ -129,6 +152,7 @@ namespace Data.Repositories
             _entities.Update(entity);
         }
 
+
         public virtual void Update(IList<TEntity> entities)
         {
             if (entities == null)
@@ -138,8 +162,14 @@ namespace Data.Repositories
                 return;
 
             foreach (var entity in entities)
-                Update(entity);
+            {
+                entity.ModifiedBy = UserId;
+                entity.ModifiedDate = DateTime.Now;
+            }
+
+            _entities.UpdateRange(entities);
         }
+
 
         public virtual void Delete(TEntity entity)
         {
@@ -150,7 +180,7 @@ namespace Data.Repositories
 
                 case ISoftDeletedEntity softDeletedEntity:
                     softDeletedEntity.Deleted = true;
-                    _entities.Update(entity);
+                    _entities.UpdateRange(entity);
                     break;
 
                 default:
@@ -158,6 +188,7 @@ namespace Data.Repositories
                     break;
             }
         }
+
 
         public virtual void Delete(IList<TEntity> entities)
         {
@@ -191,19 +222,16 @@ namespace Data.Repositories
             return deleteEntities.Count();
         }
 
-        public virtual TEntity LoadOriginalCopy(TEntity entity)
+
+        public virtual async Task<IList<TEntity>> FromSqlAsync(string procedureName, params SqlParameter[] parameters)
         {
-            return _entities.FirstOrDefault(e => e.Id == entity.Id);
+            return await _entities.FromSqlRaw(procedureName, parameters).ToListAsync();
         }
 
-        public virtual IList<TEntity> EntityFromSql(string procedureName, params object[] parameters)
-        {
-            return _entities.FromSqlRaw(procedureName, parameters).ToList();
-        }
 
-        public virtual void Truncate(bool resetIdentity = false)
+        public virtual async Task TruncateAsync(bool resetIdentity = false)
         {
-            _entities.RemoveRange();
+            //await Table.(resetIdentity);
         }
 
         #endregion
@@ -212,7 +240,7 @@ namespace Data.Repositories
 
         public virtual IQueryable<TEntity> Table => _entities;
 
-        public IQueryable<TEntity> TableNoTracking => Table.AsNoTracking();
+        public virtual IQueryable<TEntity> TableNoTracking => Table.AsNoTracking();
 
         #endregion
     }

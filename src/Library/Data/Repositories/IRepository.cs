@@ -1,9 +1,12 @@
-﻿using Core.Infrastructure.PagedList;
-using Entities.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Core.Caching;
+using Core.Infrastructure.PagedList;
+using Entities.Models;
+using Microsoft.Data.SqlClient;
 
 namespace Data.Repositories
 {
@@ -11,18 +14,18 @@ namespace Data.Repositories
     {
         #region Methods
 
-        TEntity GetById(int id);
+        Task<TEntity> GetByIdAsync(int id);
 
-        IList<TEntity> GetByIds(IList<int> ids);
+        Task<IList<TEntity>> GetByIdsAsync(IList<int> ids);
 
-        IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null);
+        Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null);
 
-        IPagedList<TEntity> GetAllPaged(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
+        Task<IPagedList<TEntity>> GetAllPagedAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
             int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
 
-        void Insert(TEntity entity);
+        Task InsertAsync(TEntity entity);
 
-        void Insert(IList<TEntity> entities);
+        Task InsertAsync(IList<TEntity> entities);
 
         void Update(TEntity entity);
 
@@ -34,11 +37,11 @@ namespace Data.Repositories
 
         int Delete(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity LoadOriginalCopy(TEntity entity);
+        Task<TEntity> LoadOriginalCopyAsync(TEntity entity);
 
-        IList<TEntity> EntityFromSql(string procedureName, params object[] parameters);
+        Task<IList<TEntity>> FromSqlAsync(string procedureName, params SqlParameter[] parameters);
 
-        void Truncate(bool resetIdentity = false);
+        Task TruncateAsync(bool resetIdentity = false);
 
         #endregion
 

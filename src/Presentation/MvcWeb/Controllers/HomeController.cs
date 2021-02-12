@@ -71,7 +71,7 @@ namespace MvcWeb.Controllers
         [Route("SeedData")]
         public async Task<IActionResult> SeedData()
         {
-            _navigateMenuService.MenuSync(Assembly.GetExecutingAssembly());
+            await _navigateMenuService.MenuSyncAsync(Assembly.GetExecutingAssembly());
 
             var newUser = new User
             {

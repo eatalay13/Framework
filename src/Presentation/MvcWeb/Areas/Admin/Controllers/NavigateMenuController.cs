@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,9 @@ namespace MvcWeb.Areas.Admin.Controllers
         }
 
         [MenuItem(MenuNamesDefaults.NavigateMenusSync, isVisible: false)]
-        public IActionResult SyncMenu()
+        public async Task<IActionResult> SyncMenu()
         {
-            _navigateMenuService.MenuSync(Assembly.GetExecutingAssembly());
+            await _navigateMenuService.MenuSyncAsync(Assembly.GetExecutingAssembly());
 
             return RedirectToAction(nameof(Index));
         }
