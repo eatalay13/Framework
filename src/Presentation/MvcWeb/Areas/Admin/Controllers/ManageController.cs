@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Core.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
@@ -520,6 +521,32 @@ namespace MvcWeb.Areas.Admin.Controllers
             var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes.ToArray() };
 
             return View(nameof(ShowRecoveryCodes), model);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> VerifyUserName(string userName)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var isExistUserName = await _userManager.Users.AnyAsync(e => e.UserName == userName && e.Id != user.Id);
+
+            if (isExistUserName)
+                return Json("Kullanıcı adı kullanımda!");
+
+            return Json(true);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> VerifyEmail(string email)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var isExistUserName = await _userManager.Users.AnyAsync(e => e.Email == email && e.Id != user.Id);
+
+            if (isExistUserName)
+                return Json("Mail adresi kullanımda!");
+
+            return Json(true);
         }
 
         #region Helpers
