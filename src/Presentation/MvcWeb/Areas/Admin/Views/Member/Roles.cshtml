@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Entities.Dtos
+@{
     ViewData["Title"] = "Roller";
 }
 
@@ -11,24 +12,24 @@
                 </h3>
             </div>
             <div class="card-body py-0">
-                @(Html.DevExtreme().DataGrid<Entities.Dtos.RoleDevApiDto>()
-                        .DataSource(ds => ds.Mvc()
-                            .Controller("RoleApi")
-                            .LoadAction("Get")
-                            .InsertAction("Post")
-                            .UpdateAction("Put")
-                            .DeleteAction("Delete")
-                            .Key("Id")
-                        )
-                        .AdvancedGridOptions()
-                        .GridLeftButtons()
-                        .OnRowInserted("function(e) { e.component.navigateToRow(e.key); }")
-                        .RemoteOperations(true)
-                        .Columns(columns => {
+                @(Html.DevExtreme().DataGrid<RoleDevApiDto>()
+                    .DataSource(ds => ds.Mvc()
+                        .Controller("RoleApi")
+                        .LoadAction("Get")
+                        .InsertAction("Post")
+                        .UpdateAction("Put")
+                        .DeleteAction("Delete")
+                        .Key("Id")
+                    )
+                    .AdvancedGridOptions()
+                    .GridLeftButtons()
+                    .OnRowInserted("function(e) { e.component.navigateToRow(e.key); }")
+                    .RemoteOperations(true)
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.Name).Caption("Rol Adı");
 
-                            columns.AddFor(m => m.Name).Caption("Rol Adı");
-
-                            columns.AddFor(m => m.RoleMenuIds).Caption("Yetkili Sayfalar").Width(750)
+                        columns.AddFor(m => m.RoleMenuIds).Caption("Yetkili Sayfalar").Width(750)
                             .Lookup(lookup => lookup
                                 .DataSource(d => d.Mvc().Controller("NavigationMenuApi").LoadAction("Get").Key("Id"))
                                 .ValueExpr("Id")
@@ -36,13 +37,12 @@
                             )
                             .CellTemplate(new JS("cellTemplate"))
                             .EditCellTemplate(new TemplateName("RoleMenusTemplate"));
-
-                        })
-                        .Editing(e => e
-                            .AllowAdding(true)
-                            .AllowUpdating(true)
-                            .AllowDeleting(true)
-                        )
+                    })
+                    .Editing(e => e
+                        .AllowAdding(true)
+                        .AllowUpdating(true)
+                        .AllowDeleting(true)
+                    )
                     )
             </div>
         </div>
@@ -63,23 +63,23 @@
         .SearchEnabled(true)
         .OnValueChanged("function(e) { setValue(e.value); }")
         .OnSelectionChanged("function(e) { component.updateDimensions(); }")
-    )
+        )
 }
 
 @section Scripts{
     <script>
         function cellTemplate(container, options) {
             console.log(container, options.column.lookup);
-            var noBreakSpace = "\u00A0",
-                text = (options.value || []).map(element => {
-                    return options.column.lookup.calculateCellValue(element);
-                }).join(", ");
+            const noBreakSpace = "\u00A0";
+            const text = (options.value || []).map(element => {
+                return options.column.lookup.calculateCellValue(element);
+            }).join(", ");
             container.text(text || noBreakSpace).attr("title", text);
         }
 
         function onSelectionChanged(selectionChangedArgs, component) {
-            var setValue = component.option('setValue');
-            var selectedRowKey = selectionChangedArgs.selectedRowKeys[0];
+            const setValue = component.option('setValue');
+            const selectedRowKey = selectionChangedArgs.selectedRowKeys[0];
 
             component.option('value', selectedRowKey);
             setValue(selectedRowKey);

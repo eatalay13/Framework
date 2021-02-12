@@ -28,14 +28,14 @@
                             {
                                 <li style="padding: 10px 0px;">
                                     <label class="checkbox mb-0" asp-for="@Model.Roles[i].Selected">
-                                        <input asp-for="@Model.Roles[i].Selected" type="checkbox" />
+                                        <input asp-for="@Model.Roles[i].Selected" type="checkbox"/>
                                         <span></span>
                                         &nbsp; @Model.Roles[i].Name
                                     </label>
                                     @*<input type="checkbox" asp-for="@Model.Roles[i].Selected"/>
                         <label style="margin-left: 10px;" asp-for="@Model.Roles[i].Selected">@Model.Roles[i].Name</label>*@
-                                    <input type="hidden" asp-for="@Model.Roles[i].Id" />
-                                    <input type="hidden" asp-for="@Model.Roles[i].Name" />
+                                    <input type="hidden" asp-for="@Model.Roles[i].Id"/>
+                                    <input type="hidden" asp-for="@Model.Roles[i].Name"/>
                                 </li>
                             }
                         </ul>

@@ -12,11 +12,11 @@ using Microsoft.EntityFrameworkCore;
 namespace MvcWeb.Areas.Admin.DevExpApis
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [Authorize(PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class LogsApiController : Controller
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public LogsApiController(AppDbContext context)
         {

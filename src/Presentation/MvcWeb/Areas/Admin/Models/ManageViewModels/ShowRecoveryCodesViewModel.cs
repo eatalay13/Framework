@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MvcWeb.Areas.Admin.Models.ManageViewModels
+﻿namespace MvcWeb.Areas.Admin.Models.ManageViewModels
 {
     public class ShowRecoveryCodesViewModel
     {

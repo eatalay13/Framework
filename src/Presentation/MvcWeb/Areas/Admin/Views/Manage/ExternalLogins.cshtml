@@ -5,7 +5,7 @@
 }
 
 @section Styles{
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" rel="stylesheet" type="text/css"/>
 }
 
 <div class="card card-custom card-stretch">
@@ -21,40 +21,40 @@
             <h4>Bağlanılmış servisler</h4>
             <table class="table">
                 <tbody>
-                    @foreach (var login in Model.CurrentLogins)
-                    {
-                        <tr>
-                            <td>
-                                <div class="btn btn-social btn-@login.LoginProvider.ToLower() mt-3">
-                                    <span class="fab fa-@login.LoginProvider.ToLower()"></span>
-                                    @login.LoginProvider bağlandı.
-                                </div>
-                            </td>
-                            <td>
-                                @if (Model.ShowRemoveButton)
-                                {
-                                    <form asp-action="RemoveLogin" method="post">
-                                        <div>
-                                            <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
-                                            <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                            <button type="submit" class="btn btn-danger" title="Remove this @login.LoginProvider login from your account">Kaldır</button>
-                                        </div>
-                                    </form>
-                                }
-                                else
-                                {
-                                    @: &nbsp;
-                                }
-                            </td>
-                        </tr>
-                    }
+                @foreach (var login in Model.CurrentLogins)
+                {
+                    <tr>
+                        <td>
+                            <div class="btn btn-social btn-@login.LoginProvider.ToLower() mt-3">
+                                <span class="fab fa-@login.LoginProvider.ToLower()"></span>
+                                @login.LoginProvider bağlandı.
+                            </div>
+                        </td>
+                        <td>
+                            @if (Model.ShowRemoveButton)
+                            {
+                                <form asp-action="RemoveLogin" method="post">
+                                    <div>
+                                        <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden"/>
+                                        <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden"/>
+                                        <button type="submit" class="btn btn-danger" title="Remove this @login.LoginProvider login from your account">Kaldır</button>
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                @: &nbsp;
+                            }
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
         }
         @if (Model.OtherLogins?.Count > 0)
         {
             <h4>Kullanılabilir diğer servisler</h4>
-            <hr />
+            <hr/>
             <form asp-action="LinkLogin" method="post" class="form-horizontal">
                 <div id="socialLoginList">
                     <p>

@@ -11,7 +11,7 @@ using Services.NavigateMenu;
 namespace MvcWeb.Areas.Admin.DevExpApis
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [Authorize(PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class NavigationMenuApiController : Controller
     {
@@ -45,7 +45,7 @@ namespace MvcWeb.Areas.Admin.DevExpApis
 
             _navigateMenuService.AddNavigationMenu(model);
 
-            return Json(new { model.Id });
+            return Json(new {model.Id});
         }
 
         [HttpPut]

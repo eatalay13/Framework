@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Entities.Models.Auth;
-using Microsoft.AspNetCore.Identity;
 
 namespace MvcWeb.Areas.Admin.Models.Member
 {

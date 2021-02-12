@@ -1,14 +1,13 @@
-﻿using Entities.Models.Menu;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Entities.Models.Menu;
 
 namespace MvcWeb.Areas.Admin.Models.NavigatMenu
 {
     public class AddNavigationMenuViewModel
     {
-        [Required]
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
 
         public Guid? ParentMenuId { get; set; }
 

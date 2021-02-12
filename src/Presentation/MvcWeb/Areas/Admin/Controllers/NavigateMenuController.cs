@@ -1,16 +1,13 @@
-﻿using Core.CustomAttributes;
+﻿using System.Reflection;
+using Core.CustomAttributes;
 using Core.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using Services.NavigateMenu;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
-    [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.AuthorizationTopMenu)]
-    public class NavigateMenuController : Controller
+    public class NavigateMenuController : BaseAdminController
     {
         private readonly INavigateMenuService _navigateMenuService;
 

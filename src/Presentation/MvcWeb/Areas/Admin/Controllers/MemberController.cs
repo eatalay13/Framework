@@ -1,32 +1,30 @@
-﻿using Core.Helpers;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Core.CustomAttributes;
+using Core.Helpers;
 using Core.Infrastructure.NotificationService;
 using Entities.Models.Auth;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MvcWeb.Areas.Admin.Models.Member;
 using Services.Authentication;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.CustomAttributes;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
-    [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.AuthorizationTopMenu)]
-    public class MemberController : Controller
+    public class MemberController : BaseAdminController
     {
-        private readonly IPermissionService _permissionService;
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<Role> _roleManager;
-        private readonly INotificationService _notificationService;
         private readonly ILogger<MemberController> _logger;
+        private readonly INotificationService _notificationService;
+        private readonly IPermissionService _permissionService;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
 
         public MemberController(IPermissionService permissionService,
-            UserManager<User> userManager, RoleManager<Role> roleManager, INotificationService notificationService, ILogger<MemberController> logger)
+            UserManager<User> userManager, RoleManager<Role> roleManager, INotificationService notificationService,
+            ILogger<MemberController> logger)
         {
             _logger = logger;
             _permissionService = permissionService;
@@ -35,7 +33,7 @@ namespace MvcWeb.Areas.Admin.Controllers
             _notificationService = notificationService;
         }
 
-        [MenuItem(MenuNamesDefaults.Roles, 1)]
+        [MenuItem(MenuNamesDefaults.Roles)]
         public IActionResult Roles()
         {
             return View();
@@ -69,7 +67,7 @@ namespace MvcWeb.Areas.Admin.Controllers
 
             var allRoles = await _roleManager.Roles.ToListAsync();
 
-            viewModel.Roles = allRoles.Select(x => new RoleViewModel()
+            viewModel.Roles = allRoles.Select(x => new RoleViewModel
             {
                 Id = x.Id,
                 Name = x.Name,

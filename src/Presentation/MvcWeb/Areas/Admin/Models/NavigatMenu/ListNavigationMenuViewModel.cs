@@ -1,6 +1,6 @@
-﻿using Core.Infrastructure.PagedList;
+﻿using System.Collections.Generic;
+using Core.Infrastructure.PagedList;
 using Entities.Models.Menu;
-using System.Collections.Generic;
 
 namespace MvcWeb.Areas.Admin.Models.NavigatMenu
 {

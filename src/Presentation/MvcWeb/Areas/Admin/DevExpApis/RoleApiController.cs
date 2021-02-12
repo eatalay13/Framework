@@ -1,4 +1,6 @@
-﻿using Core.CustomAttributes;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Core.CustomAttributes;
 using Core.Helpers;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
@@ -10,18 +12,16 @@ using Microsoft.AspNetCore.Mvc;
 using MvcWeb.Framework.Extensions;
 using Newtonsoft.Json;
 using Services.Authentication;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvcWeb.Controllers
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [Authorize(PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class RoleApiController : Controller
     {
-        private readonly RoleManager<Role> _roleManager;
         private readonly IPermissionService _permissionService;
+        private readonly RoleManager<Role> _roleManager;
 
         public RoleApiController(RoleManager<Role> roleManager, IPermissionService permissionService)
         {
@@ -61,7 +61,7 @@ namespace MvcWeb.Controllers
 
             await _permissionService.SetPermissionsByRoleIdAsync(role.Id, model.RoleMenuIds);
 
-            return Json(new { role.Id });
+            return Json(new {role.Id});
         }
 
         [HttpPut]

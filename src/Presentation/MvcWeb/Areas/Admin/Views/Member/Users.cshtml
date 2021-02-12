@@ -23,17 +23,17 @@
                     )
                     .AdvancedGridOptions()
                     .RemoteOperations(true)
-                    .Columns(columns => {
-
+                    .Columns(columns =>
+                    {
                         columns.AddFor(m => m.ProfilFoto)
-                                .Width(100)
-                                .AllowFiltering(false)
-                                .AllowSorting(false)
-                                .CellTemplate(@<text>
-                                    <div>
-                                        <img src="<%- value %>" alt="" width="50" height="50"/>
-                                    </div>
-                                </text>);
+                            .Width(100)
+                            .AllowFiltering(false)
+                            .AllowSorting(false)
+                            .CellTemplate(@<text>
+                                              <div>
+                                                  <img src="<%- value %>" alt="" width="50" height="50"/>
+                                              </div>
+                                           </text>);
 
                         columns.AddFor(m => m.UserName);
 
@@ -42,14 +42,13 @@
                         columns.AddFor(m => m.LastName);
 
                         columns.AddFor(m => m.Email);
-
                     })
                     .Editing(e => e.Mode(GridEditMode.Popup)
                         .AllowAdding(true)
                         .AllowUpdating(true)
                         .AllowDeleting(true)
                     )
-                )
+                    )
             </div>
         </div>
     </div>

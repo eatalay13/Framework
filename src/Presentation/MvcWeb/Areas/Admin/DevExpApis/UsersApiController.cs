@@ -1,4 +1,5 @@
-﻿using Core.CustomAttributes;
+﻿using System.Threading.Tasks;
+using Core.CustomAttributes;
 using Core.Exceptions;
 using Core.Helpers;
 using DevExtreme.AspNet.Data;
@@ -8,12 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MvcWeb.Framework.Extensions;
-using System.Threading.Tasks;
 
 namespace MvcWeb.Controllers
 {
     [Area(AreaDefaults.AdminAreaName)]
-    [Authorize(policy: PolicyDefaults.AuthorizationPolicy)]
+    [Authorize(PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.ApiMenus, isVisible: false)]
     public class UsersApiController : Controller
     {
@@ -46,7 +46,7 @@ namespace MvcWeb.Controllers
 
             await _userManager.CreateAsync(model, "12345");
 
-            return Json(new { model.Id });
+            return Json(new {model.Id});
         }
 
         [HttpPut]
@@ -69,18 +69,16 @@ namespace MvcWeb.Controllers
             {
                 var setEmailResult = await _userManager.SetEmailAsync(user, user.Email);
                 if (!setEmailResult.Succeeded)
-                {
-                    throw new BusinessException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                }
+                    throw new BusinessException(
+                        $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
             }
 
             if (userName != user.UserName)
             {
                 var setuserNameResult = await _userManager.SetUserNameAsync(user, user.UserName);
                 if (!setuserNameResult.Succeeded)
-                {
-                    throw new BusinessException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                }
+                    throw new BusinessException(
+                        $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
             }
 
             await _userManager.UpdateAsync(user);
