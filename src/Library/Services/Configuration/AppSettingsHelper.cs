@@ -1,47 +1,64 @@
 ﻿using Core.Configuration;
 using Core.Infrastructure.Providers;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Services.Configuration
 {
-    public partial class AppSettingsHelper
+    public partial class AppSettingsService
     {
-        #region Methods
+        private readonly ILibFileProvider _fileProvider;
+        private AppSettings _appSettings;
 
-        public static async Task SaveAppSettingsAsync([NotNull] AppSettings appSettings, [NotNull] ILibFileProvider fileProvider)
+        public AppSettingsService(ILibFileProvider fileProvider)
         {
-            //create file if not exists
-            var filePath = fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
-            fileProvider.CreateFile(filePath);
-
-            //check additional configuration parameters
-            var additionalData = JsonConvert.DeserializeObject<AppSettings>(await fileProvider.ReadAllTextAsync(filePath, Encoding.UTF8))?.AdditionalData;
-            appSettings.AdditionalData = additionalData;
-
-            //save app settings to the file
-            var text = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
-            await fileProvider.WriteAllTextAsync(filePath, text, Encoding.UTF8);
+            _fileProvider = fileProvider;
         }
 
-        public static void SaveAppSettings([NotNull] AppSettings appSettings, [NotNull] ILibFileProvider fileProvider)
+        public AppSettings AppSettings => _appSettings ??= GetAppSettings();
+
+        #region Methods
+
+        public AppSettings GetAppSettings()
+        {
+            var filePath = _fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
+
+            if (!_fileProvider.FileExists(filePath))
+                return new AppSettings();
+
+            return JsonConvert.DeserializeObject<AppSettings>(_fileProvider.ReadAllText(filePath, Encoding.UTF8));
+        }
+
+        public async Task SaveAppSettingsAsync([NotNull] AppSettings appSettings)
         {
             //create file if not exists
-            var filePath = fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
-            fileProvider.CreateFile(filePath);
+            var filePath = _fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
+            _fileProvider.CreateFile(filePath);
 
             //check additional configuration parameters
-            var additionalData = JsonConvert.DeserializeObject<AppSettings>(fileProvider.ReadAllText(filePath, Encoding.UTF8))?.AdditionalData;
+            var additionalData = JsonConvert.DeserializeObject<AppSettings>(await _fileProvider.ReadAllTextAsync(filePath, Encoding.UTF8))?.AdditionalData;
             appSettings.AdditionalData = additionalData;
 
             //save app settings to the file
             var text = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
-            fileProvider.WriteAllText(filePath, text, Encoding.UTF8);
+            await _fileProvider.WriteAllTextAsync(filePath, text, Encoding.UTF8);
+        }
+
+        public void SaveAppSettings([NotNull] AppSettings appSettings)
+        {
+            //create file if not exists
+            var filePath = _fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
+            _fileProvider.CreateFile(filePath);
+
+            //check additional configuration parameters
+            var additionalData = JsonConvert.DeserializeObject<AppSettings>(_fileProvider.ReadAllText(filePath, Encoding.UTF8))?.AdditionalData;
+            appSettings.AdditionalData = additionalData;
+
+            //save app settings to the file
+            var text = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
+            _fileProvider.WriteAllText(filePath, text, Encoding.UTF8);
         }
 
         #endregion

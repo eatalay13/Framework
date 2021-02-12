@@ -9,3 +9,17 @@
     border-radius: 10px;
     background-color: rgb(136 136 136 / 38%);
 }
+
+.sidebar-logo {
+    width: 190px;
+    height: 35px;
+    -webkit-object-fit: scale-down;
+    object-fit: scale-down;
+}
+
+.mobile-header-logo {
+    width: 50px;
+    height: 35px;
+    -webkit-object-fit: scale-down;
+    object-fit: scale-down;
+}

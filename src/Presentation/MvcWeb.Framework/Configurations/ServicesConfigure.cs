@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWeb.Framework.Handlers;
 using Services.Authentication;
+using Services.Configuration;
 using Services.License;
 using Services.NavigateMenu;
 
@@ -35,6 +36,7 @@ namespace MvcWeb.Framework.Configurations
             services.AddScoped<ILicenseService, LicenseService>();
             services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.AddScoped<ILibFileProvider, LibFileProvider>();
+            services.AddTransient<AppSettingsService>();
 
             services.AddScoped<DbContext, AppDbContext>();
             services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));

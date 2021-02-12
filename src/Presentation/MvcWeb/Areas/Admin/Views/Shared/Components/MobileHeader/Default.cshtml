@@ -1,6 +1,7 @@
-﻿<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
+﻿@inject AppSettingsService AppSettingsService
+<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
     <a asp-action="Index" asp-controller="Home" asp-area="Admin">
-        <img alt="Logo" src="/media/logos/logo-light.png" />
+        <img alt="Logo" src="@AppSettingsService.AppSettings.Logo" class="mobile-header-logo"/>
     </a>
     <div class="d-flex align-items-center">
         <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">

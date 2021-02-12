@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Services.Configuration
+@inject AppSettingsService AppSettingsService
+
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Flixada</title>
+    <title>@ViewData["Title"] - @AppSettingsService.AppSettings.AppName</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link href="~/css/pages/login/login-4f552.css" rel="stylesheet" type="text/css" asp-append-version="true" />
     <link href="~/plugins/global/plugins.bundlef552.css" rel="stylesheet" type="text/css" />
@@ -18,7 +21,7 @@
                 <div class="login-form text-center p-7 position-relative overflow-hidden">
                     <div class="d-flex flex-center mb-15">
                         <a href="#">
-                            <img src="~/media/logos/logo-letter-13.png" class="max-h-75px" alt="" />
+                            <img src="@AppSettingsService.AppSettings.Logo" class="max-h-75px" alt="" />
                         </a>
                     </div>
                     <partial name="_Notifications" />

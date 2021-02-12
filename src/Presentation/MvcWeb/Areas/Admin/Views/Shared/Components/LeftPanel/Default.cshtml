@@ -1,9 +1,10 @@
-﻿<div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
+﻿@inject AppSettingsService AppSettingsService
+<div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand">
         <!--begin::Logo-->
         <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="brand-logo">
-            <img alt="Logo" src="/media/logos/logo-light.png" />
+            <img alt="Logo" class="sidebar-logo" src="@AppSettingsService.AppSettings.Logo" />
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->

@@ -10,6 +10,13 @@ namespace Core.Configuration
 {
     public partial class AppSettings
     {
+        public AppSettings()
+        {
+            AppName = "AtalaySoft";
+            Logo = "/media/logos/logo-letter-13.png";
+            Favicon = "/media/icon2-192x192.png";
+        }
+
         #region Properties
 
         public string AppName { get; set; }

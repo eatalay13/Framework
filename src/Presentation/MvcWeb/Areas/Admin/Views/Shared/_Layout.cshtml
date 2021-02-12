@@ -1,14 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@inject AppSettingsService AppSettingsService
+<!DOCTYPE html>
 <html lang="tr" ng-app>
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] - Flixada</title>
+    <title>@ViewData["Title"] - @AppSettingsService.AppSettings.AppName</title>
     <meta name="description" content="Kişiye özel Aksesuarlar" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#2196f3" />
     <link rel="manifest" href="/manifest.json">
     <link rel="canonical" href="https://flixada.com/" />
-    <link rel="shortcut icon" href="~/media/icon2-192x192.png" />
+    <link rel="shortcut icon" href="@AppSettingsService.AppSettings.Favicon" />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 
