@@ -152,6 +152,19 @@ namespace Data.Repositories
             _entities.Update(entity);
         }
 
+        public virtual void Update(Expression<Func<TEntity, bool>> predicate, Action<TEntity> action)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            var updateEntities = _entities.Where(predicate);
+
+            foreach (var entity in updateEntities)
+            {
+                action(entity);
+            }
+        }
+
 
         public virtual void Update(IList<TEntity> entities)
         {

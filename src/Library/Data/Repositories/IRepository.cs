@@ -29,6 +29,8 @@ namespace Data.Repositories
 
         void Update(TEntity entity);
 
+        void Update(Expression<Func<TEntity, bool>> predicate, Action<TEntity> action);
+
         void Update(IList<TEntity> entities);
 
         void Delete(TEntity entity);
