@@ -1,11 +1,14 @@
 ﻿using Core.CustomAttributes;
 using Core.Helpers;
 using DevExtreme.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
-    public class HomeController : BaseAdminController
+    [Area(AreaDefaults.AdminAreaName)]
+    [Authorize(PolicyDefaults.AuthorizationPolicy)]
+    public class HomeController : Controller
     {
         [MenuItem(MenuNamesDefaults.AdminHomeIndex)]
         public IActionResult Index()

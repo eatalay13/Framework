@@ -37,10 +37,6 @@ namespace Services.Configuration
             var filePath = _fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
             _fileProvider.CreateFile(filePath);
 
-            //check additional configuration parameters
-            var additionalData = JsonConvert.DeserializeObject<AppSettings>(await _fileProvider.ReadAllTextAsync(filePath, Encoding.UTF8))?.AdditionalData;
-            appSettings.AdditionalData = additionalData;
-
             //save app settings to the file
             var text = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
             await _fileProvider.WriteAllTextAsync(filePath, text, Encoding.UTF8);
@@ -51,10 +47,6 @@ namespace Services.Configuration
             //create file if not exists
             var filePath = _fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
             _fileProvider.CreateFile(filePath);
-
-            //check additional configuration parameters
-            var additionalData = JsonConvert.DeserializeObject<AppSettings>(_fileProvider.ReadAllText(filePath, Encoding.UTF8))?.AdditionalData;
-            appSettings.AdditionalData = additionalData;
 
             //save app settings to the file
             var text = JsonConvert.SerializeObject(appSettings, Formatting.Indented);

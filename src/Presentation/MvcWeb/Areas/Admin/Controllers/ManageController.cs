@@ -21,8 +21,8 @@ using MvcWeb.Areas.Admin.Models.ManageViewModels;
 
 namespace MvcWeb.Areas.Admin.Controllers
 {
-    [Authorize]
     [Area(AreaDefaults.AdminAreaName)]
+    [Authorize(PolicyDefaults.AuthorizationPolicy)]
     [ParentMenu(MenuNamesDefaults.ProfileMenu)]
     public class ManageController : Controller
     {

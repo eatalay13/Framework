@@ -1,0 +1,62 @@
+﻿@model Core.Configuration.AppSettings
+@{
+    ViewData["Title"] = "Ayarlar";
+}
+
+<form role="form" method="post" enctype="multipart/form-data">
+    <div class="card card-custom card-stretch">
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">Uygulama Ayarları</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">Uygulama Ayarları Güncelle</span>
+            </div>
+            <div class="card-toolbar">
+                <button type="submit" class="btn btn-success mr-2">Kaydet</button>
+                <button type="reset" class="btn btn-secondary">İptal</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label class="col-xl-3"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <h5 class="font-weight-bold mb-6">Uygulama Ayarları</h5>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="Logo"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url(/media/users/default.jpg)">
+                        <input asp-for="Logo" hidden />
+                        <div class="image-input-wrapper" style="background-image: url('@Model.Logo')"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Fotoğrafı değiştir">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" accept=".png, .jpg, .jpeg">
+                            <input type="hidden" name="profile_avatar_remove">
+                        </label>
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Geri al">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="" data-original-title="Fotoğrafı sil">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                    </div>
+                    <span class="form-text text-muted">Geçerli dosya tipleri: png, jpg, jpeg.</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label" asp-for="AppName"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <input asp-for="AppName" class="form-control form-control-lg form-control-solid">
+                    <span asp-validation-for="AppName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+
+    <script src="~/js/pages/custom/profile/profilef552.js"></script>
+}

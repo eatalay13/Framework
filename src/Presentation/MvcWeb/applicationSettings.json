@@ -1,0 +1,26 @@
+﻿{
+  "AppName": "Emrah Atalay",
+  "Logo": "/media/logos/logo-letter-13.png",
+  "Favicon": "/media/icon2-192x192.png",
+  "CacheConfig": {
+    "DefaultCacheTime": 60,
+    "ShortTermCacheTime": 3,
+    "BundledFilesCacheTime": 120
+  },
+  "HostingConfig": {
+    "UseHttpClusterHttps": false,
+    "UseHttpXForwardedProto": false,
+    "ForwardedHttpHeader": ""
+  },
+  "PluginConfig": {
+    "ClearPluginShadowDirectoryOnStartup": true,
+    "CopyLockedPluginAssembilesToSubdirectoriesOnStartup": false,
+    "UseUnsafeLoadAssembly": true,
+    "UsePluginsShadowCopy": true
+  },
+  "CommonConfig": {
+    "DisplayFullErrorStack": false,
+    "UseSessionStateTempDataProvider": false,
+    "MiniProfilerEnabled": false
+  }
+}
