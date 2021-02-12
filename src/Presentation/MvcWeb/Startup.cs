@@ -1,3 +1,4 @@
+using Entities.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ namespace MvcWeb
             services.AddServicesOptions(Configuration);
 
             services.AddIdentityOptions();
+            services.AddAutoMapper(typeof(BaseModel), typeof(Startup));
 
             services.AddControllersWithViews()
                .AddNewtonsoftJson(options =>

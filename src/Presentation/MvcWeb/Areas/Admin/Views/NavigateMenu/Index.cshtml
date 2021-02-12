@@ -1,5 +1,4 @@
-﻿@using Entities.Models.Menu
-@{
+﻿@{
     ViewData["Title"] = "Navigation Menü";
 }
 
@@ -18,7 +17,7 @@
                 </div>
             </div>
             <div class="card-body py-0">
-                @(Html.DevExtreme().DataGrid<NavigationMenu>()
+                @(Html.DevExtreme().DataGrid<NavigationMenuForListDto>()
                     .ID("gridNavigationMenu")
                     .DataSource(ds => ds.Mvc()
                         .Controller("NavigationMenuApi")

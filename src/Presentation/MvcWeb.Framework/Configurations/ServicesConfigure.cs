@@ -17,6 +17,8 @@ using Services.Authentication;
 using Services.Configuration;
 using Services.License;
 using Services.NavigateMenu;
+using System.Reflection;
+using Entities.Models;
 
 namespace MvcWeb.Framework.Configurations
 {

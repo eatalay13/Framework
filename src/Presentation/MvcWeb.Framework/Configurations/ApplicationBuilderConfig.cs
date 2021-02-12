@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MvcWeb.Framework.Configurations
 {
-    public static class IApplicationBuilderConfig
+    public static class ApplicationBuilderConfig
     {
         public static IApplicationBuilder UseAllAppBuilderConfig(this IApplicationBuilder app)
         {

@@ -15,21 +15,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace Services.NavigateMenu
 {
     public class NavigateMenuService : INavigateMenuService
     {
         private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public NavigateMenuService(IUnitOfWork uow)
+        public NavigateMenuService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         public async Task<LoadResult> BindDevExp(DataSourceLoadOptions loadOptions)
         {
-            var data = _uow.NavigationMenuRepo.TableNoTracking;
+            var data = _uow.NavigationMenuRepo
+                .TableNoTracking
+                .ProjectTo<NavigationMenuForListDto>(_mapper.ConfigurationProvider);
 
             return await DataSourceLoader.LoadAsync(data, loadOptions);
         }
