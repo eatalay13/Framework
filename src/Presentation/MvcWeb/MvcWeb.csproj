@@ -25,4 +25,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\MvcWeb.Framework\MvcWeb.Framework.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Themes\" />
+	  <Folder Include="wwwroot\themes\default\" />
+	</ItemGroup>
 </Project>

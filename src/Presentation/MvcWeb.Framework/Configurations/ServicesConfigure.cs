@@ -19,6 +19,7 @@ using Services.License;
 using Services.NavigateMenu;
 using System.Reflection;
 using Entities.Models;
+using MvcWeb.Framework.Themes;
 
 namespace MvcWeb.Framework.Configurations
 {
@@ -54,6 +55,8 @@ namespace MvcWeb.Framework.Configurations
 
             services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("Default")));
             services.AddHangfireServer();
+
+            services.AddThemes();
 
             services.Configure<EmailSettings>(config => configuration.GetSection("MailSettings").Bind(config));
             services.Configure<LicenseDto>(config => configuration.GetSection("License").Bind(config));
