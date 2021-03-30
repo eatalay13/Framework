@@ -50,7 +50,7 @@ namespace Core.Infrastructure.NotificationService
 
             TempData[_notificationListKey] = JsonConvert.SerializeObject(notifies);
 
-            _logger.LogWarning(string.Concat(_httpContextAccessor.HttpContext.User.Identity.Name, ": ", message));
+            _logger.LogWarning(string.Concat(_httpContextAccessor.HttpContext?.User.Identity?.Name, ": ", message));
         }
 
         #endregion

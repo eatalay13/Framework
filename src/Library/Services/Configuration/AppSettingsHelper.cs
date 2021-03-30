@@ -21,7 +21,7 @@ namespace Services.Configuration
 
         #region Methods
 
-        public AppSettings GetAppSettings()
+        private AppSettings GetAppSettings()
         {
             var filePath = _fileProvider.MapPath(ConfigurationDefaults.AppSettingsFilePath);
 
