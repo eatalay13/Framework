@@ -34,6 +34,7 @@ namespace WepApi
 
             services.AddApiServicesOptions(Configuration);
             services.AddIdentityJwtOptions(Configuration);
+            services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WepApi", Version = "v1" });
