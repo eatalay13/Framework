@@ -98,12 +98,15 @@ namespace MvcWeb.Controllers
 #else
             string sqlResName = Directory.GetCurrentDirectory() + "/Documents/Sql/Views/";
 #endif
-            var sqlFiles = Directory.EnumerateFiles(sqlResName, "*.sql");
-
-            foreach (string name in sqlFiles)
+            if (Directory.Exists(sqlResName))
             {
-                string readText = System.IO.File.ReadAllText(name);
-                _appDbContext.Database.ExecuteSqlRaw(readText);
+                var sqlFiles = Directory.EnumerateFiles(sqlResName, "*.sql");
+
+                foreach (string name in sqlFiles)
+                {
+                    string readText = System.IO.File.ReadAllText(name);
+                    _appDbContext.Database.ExecuteSqlRaw(readText);
+                }
             }
 
             return RedirectToAction("Index", "Home", new { Area = AreaDefaults.AdminAreaName });
