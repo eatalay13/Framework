@@ -45,7 +45,7 @@
         };</script>
 
     <script src="~/plugins/global/plugins.bundlef552.js?v=7.1.8"></script>
-    <script src="~/plugins/custom/prismjs//prismjs.bundlef552.js?v=7.1.8"></script>
+    <script src="~/plugins/custom/prismjs/prismjs.bundlef552.js?v=7.1.8"></script>
     <script src="~/js/scripts.bundlef552.js?v=7.1.8"></script>
     <script src="~/js/pages/widgetsf552.js?v=7.1.8"></script>
     <script src="~/lib/keyboard.min.js"></script>
@@ -135,9 +135,10 @@
         }
 
         $(document).ready(function () {
-            setInterval(function () {
-                ajax("/SessionRequest", "post");
-            }, 180000)
+            setInterval(function() {
+                    ajax("/SessionRequest", "post");
+                },
+                180000);
         });
     </script>
 </body>

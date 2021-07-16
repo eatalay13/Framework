@@ -35,9 +35,9 @@
                         <tel number="@loginUser.PhoneNumber" class="text-muted"></tel>
                     </div>
                 </div>
-                <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+                <div class="navi navi-bold navi-hover navi-active navi-link-rounded" id="navi">
                     <div class="navi-item mb-2">
-                        <a asp-action="Index" asp-controller="Manage" class="navi-link py-4 active">
+                        <a asp-action="Index" asp-controller="Manage" class="navi-link py-4 @(ViewData["AddActivePage"].ToString() == "Index" ? "active": "")">
                             <span class="navi-icon mr-2">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -53,7 +53,7 @@
                         </a>
                     </div>
                     <div class="navi-item mb-2">
-                        <a asp-action="SetPassword" asp-controller="Manage" class="navi-link py-4">
+                        <a asp-action="SetPassword" asp-controller="Manage" class="navi-link py-4 @(ViewData["AddActivePage"].ToString() == "ChangePassword" ? "active": "")">
                             <span class="navi-icon mr-2">
                                 <span class="svg-icon">
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Shield-user.svg-->
@@ -72,7 +72,7 @@
                         </a>
                     </div>
                     <div class="navi-item mb-2">
-                        <a asp-action="ExternalLogins" asp-controller="Manage" class="navi-link py-4">
+                        <a asp-action="ExternalLogins" asp-controller="Manage" class="navi-link py-4 @(ViewData["AddActivePage"].ToString() == "ExternalLogins" ? "active": "")">
                             <span class="navi-icon mr-2">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -88,7 +88,7 @@
                         </a>
                     </div>
                     <div class="navi-item mb-2">
-                        <a asp-action="TwoFactorAuthentication" asp-controller="Manage" class="navi-link py-4">
+                        <a asp-action="TwoFactorAuthentication" asp-controller="Manage" class="navi-link py-4 @(ViewData["AddActivePage"].ToString() == "TwoFactorAuthentication" ? "active": "")">
                             <span class="navi-icon mr-2">
                                 <span class="svg-icon">
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
@@ -120,7 +120,6 @@
 }
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
 
     @await RenderSectionAsync("Scripts", required: false)
 }
