@@ -205,7 +205,7 @@ namespace Services.NavigateMenu
             if (actionParentMenuAttr != null)
                 return actionParentMenuAttr.IsVisible;
 
-            return ctrlParentMenuAttr != null && ctrlParentMenuAttr.IsVisible;
+            return ctrlParentMenuAttr is {IsVisible: true};
         }
 
         public async Task DeleteNavigationMenuAsync(int id)

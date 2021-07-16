@@ -1,3 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Admin Anasayfa";
 }
+
+<div id="indexApp">
+    <label>{{name}}</label>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        let app = Vue.createApp({
+            data() {
+                return {
+                    name: "Emrah"
+                }
+            }
+        });
+
+        app.mount("#indexApp");
+    </script>
+}
