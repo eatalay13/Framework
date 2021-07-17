@@ -4,7 +4,16 @@
 
 <div id="indexApp">
     <label>{{name}}</label>
+    <my-checkbox></my-checkbox>
 </div>
+
+<script type="text/x-template" id="checkbox-template">
+    <button class="checkbox-wrapper" @@click="check">
+        <div :class="{ checkbox: true, checked: checked }"></div>
+        <div class="title">{{ title }}</div>
+    </button>
+</script>
+
 
 @section Scripts
 {
@@ -14,6 +23,18 @@
                 return {
                     name: "Emrah"
                 }
+            }
+        });
+
+        let html = /*html*/`<div>`
+
+        app.component('my-checkbox', {
+            template: '#checkbox-template',
+            data() {
+                return { checked: false, title: 'Check me' }
+            },
+            methods: {
+                check() { this.checked = !this.checked; this.title = this.checked.toString()}
             }
         });
 
