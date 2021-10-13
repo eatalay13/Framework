@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using BackgroundJobs.Schedules;
 using Services.NavigateMenu;
 
 namespace MvcWeb.Controllers
@@ -56,6 +57,14 @@ namespace MvcWeb.Controllers
         [HttpPost]
         public IActionResult SessionRequest()
         {
+            return Ok();
+        }
+
+        [Route("SetJobs")]
+        public IActionResult SetJobs()
+        {
+            RecurringJobs.SessionRequest();
+
             return Ok();
         }
 

@@ -15,5 +15,12 @@ namespace BackgroundJobs.Schedules
             RecurringJob.AddOrUpdate<DailyTaskReNotCompleteManager>(nameof(DailyTaskReNotCompleteManager),
                 job => job.Process(), "45 23 * * *", TimeZoneInfo.Local);
         }
+
+        public static void SessionRequest()
+        {
+            RecurringJob.RemoveIfExists(nameof(WakeUpManager));
+            RecurringJob.AddOrUpdate<WakeUpManager>(nameof(WakeUpManager),
+                job => job.Process(), "*/3 * * * *", TimeZoneInfo.Local);
+        }
     }
 }
