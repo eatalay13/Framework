@@ -134,13 +134,6 @@
             navigator.serviceWorker
                 .register('/serviceworker.js');
         }
-
-        $(document).ready(function () {
-            setInterval(function() {
-                    ajax("/SessionRequest", "post");
-                },
-                180000);
-        });
     </script>
 </body>
 </html>
