@@ -94,19 +94,19 @@ namespace MvcWeb.Controllers
             await _userManager.AddToRoleAsync(user, role.Name);
 
 #if DEBUG
-            string sqlResName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "/Documents/Sql/Views/";
+            string sqlResName = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName + "/Documents/Sql/Views/";
 #else
             string sqlResName = Directory.GetCurrentDirectory() + "/Documents/Sql/Views/";
 #endif
-            if (Directory.Exists(sqlResName))
-            {
-                var sqlFiles = Directory.EnumerateFiles(sqlResName, "*.sql");
+            if (!Directory.Exists(sqlResName))
+                return RedirectToAction("Index", "Home", new {Area = AreaDefaults.AdminAreaName});
 
-                foreach (string name in sqlFiles)
-                {
-                    string readText = System.IO.File.ReadAllText(name);
-                    _appDbContext.Database.ExecuteSqlRaw(readText);
-                }
+            var sqlFiles = Directory.EnumerateFiles(sqlResName, "*.sql");
+
+            foreach (string name in sqlFiles)
+            {
+                string readText = await System.IO.File.ReadAllTextAsync(name);
+                await _appDbContext.Database.ExecuteSqlRawAsync(readText);
             }
 
             return RedirectToAction("Index", "Home", new { Area = AreaDefaults.AdminAreaName });
@@ -126,12 +126,7 @@ namespace MvcWeb.Controllers
 
             Exception ex = exFeature.Error;
 #if DEBUG
-            string exMessage = string.Empty;
-
-            if (exFeature.Error.GetType() == typeof(BusinessException))
-                exMessage = ex.Message;
-            else
-                exMessage = ex.ToString();
+            var exMessage = exFeature.Error.GetType() == typeof(BusinessException) ? ex.Message : ex.ToString();
 
             var error = new { Message = exMessage, IsSuccess = false };
 #else
