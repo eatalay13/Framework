@@ -209,7 +209,7 @@ namespace Core.Helpers
 
             using (MemoryStream ms = new MemoryStream())
             {
-                using (RijndaelManaged AES = new RijndaelManaged())
+                using (Aes AES = Aes.Create())
                 {
                     var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
 
